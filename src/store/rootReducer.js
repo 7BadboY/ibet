@@ -1,14 +1,8 @@
 import { combineReducers } from 'redux';
-
-const betsReducer = (state = [], { type, payload }) => {
-  switch (type) {
-    default:
-      return state;
-  }
-};
+import ModalLoginReducer from '../components/ModalLogin/ModalLoginReducer';
 
 const rootReducer = combineReducers({
-  bets: betsReducer,
+  modalLogin: ModalLoginReducer,
 });
 
 export default rootReducer;
