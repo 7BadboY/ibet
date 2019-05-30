@@ -11,6 +11,7 @@ function Header(props) {
           Home
         </NavLink>
         <NavLink to="/about">About</NavLink>
+        <NavLink to="/active/games">Active Games</NavLink>
       </nav>
     </header>
   );

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import activeReducer from '../components/CustomTable/activeReducer';
 
 const betsReducer = (state = [], { type, payload }) => {
   switch (type) {
@@ -9,6 +10,7 @@ const betsReducer = (state = [], { type, payload }) => {
 
 const rootReducer = combineReducers({
   bets: betsReducer,
+  active: activeReducer,
 });
 
 export default rootReducer;
