@@ -10,9 +10,9 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 // import { searchUser } from './tableAction';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import classes from './CustomTable.module.css';
 import Filter from '../Filter/Filter';
-import PropTypes from 'prop-types'
 import { enterGame } from './tableAction';
 
 // const useStyles = makeStyles(theme => ({
@@ -145,7 +145,7 @@ class SimpleTable extends Component {
 }
 
 SimpleTable.propTypes = {
-  active: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+  active: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
