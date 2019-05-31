@@ -1,4 +1,4 @@
-import { TABLE_SEARCH, TABLE_FILTER } from '../../utils/constans';
+import { TABLE_SEARCH, TABLE_APLLY } from '../../utils/constans';
 
 const initialTodos = [
   {
@@ -13,7 +13,7 @@ const initialTodos = [
     isActive: true,
   },
   {
-    id: 'asas3dkjalsdkjr',
+    id: 'askjalsdkjr',
     userID: '1',
     userName: 'Carnage',
     points: 200,
@@ -24,7 +24,7 @@ const initialTodos = [
     isActive: false,
   },
   {
-    id: 'asas3dkjalsdkjr',
+    id: 'sgadf',
     userID: '1',
     userName: 'Adolf',
     points: 200,
@@ -32,10 +32,10 @@ const initialTodos = [
     betValue: '1',
     exitDate: new Date().getTime() + 60000,
     creatingDate: new Date().getTime(),
-    isActive: true,
+    isActive: false,
   },
   {
-    id: 'asas3dkjalsdkjr',
+    id: 'asas3dkj',
     userID: '1',
     userName: 'Gregory',
     points: 200,
@@ -43,14 +43,22 @@ const initialTodos = [
     betValue: '1',
     exitDate: new Date().getTime() + 60000,
     creatingDate: new Date().getTime(),
-    isActive: true,
+    isActive: false,
   },
 ];
 
 const activeReducer = (state = initialTodos, { type, payload }) => {
   switch (type) {
-    case TABLE_SEARCH:
-      return state.filter(el => el.userName === payload);
+    case TABLE_APLLY:
+      return state.map(el => {
+        if (el.id === payload) {
+          return {
+            ...el,
+            isActive: !el.isActive,
+          };
+        }
+        return el;
+      });
     default:
       return state;
   }

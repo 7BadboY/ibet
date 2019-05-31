@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,9 +8,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import { searchUser } from './tableAction';
+// import { searchUser } from './tableAction';
+import { connect } from 'react-redux';
 import classes from './CustomTable.module.css';
 import Filter from '../Filter/Filter';
+// import PropTypes from 'prop-types'
+import { enterGame } from './tableAction';
 
 // const useStyles = makeStyles(theme => ({
 //   root: {
@@ -23,29 +26,6 @@ import Filter from '../Filter/Filter';
 //   },
 // }));
 
-// const betsData = [
-//   {
-//     id: 'asdqweqherherher',
-//     userID: '1',
-//     userName: 'Bro',
-//     points: 100,
-//     type: 'random',
-//     betValue: '10',
-//     exitDate: new Date().getTime() + 60000,
-//     creatingDate: new Date().getTime(),
-//   },
-//   {
-//     id: 'asas3dkjalsdkjr',
-//     userID: '1',
-//     userName: 'Bro 2',
-//     points: 200,
-//     type: 'random',
-//     betValue: '1',
-//     exitDate: new Date().getTime() + 60000,
-//     creatingDate: new Date().getTime(),
-//   },
-// ];
-
 class SimpleTable extends Component {
   state = {
     active: this.props.active,
@@ -55,10 +35,19 @@ class SimpleTable extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { currentEnter } = this.state;
-    if (prevState.currentEnter === currentEnter) return;
+    const { active } = this.props;
+    if (prevState.currentEnter !== currentEnter) {
+      this.updateState();
+    }
 
-    this.updateState();
+    if (prevProps.active !== active) {
+      this.updateProps();
+    }
   }
+
+  updateProps = () => {
+    this.setState({ active: this.props.active });
+  };
 
   handleChange = e => {
     if (typeof this.state.currentEnter === 'string') {
@@ -81,39 +70,17 @@ class SimpleTable extends Component {
     });
   };
 
-  //   onHandleInTheGame=id=>{
-  // const { active } = this.state
-  // active.map(el => {
-  //       if (el.id === id) {
-  //         return {
-  //           ...el,
-  //           isComplited: !el.isComplited,
-  //         };
-  //       }
-  //       return el;
-  //   }
+  onHandleActiveGame = id => {
+    this.props.enterGame(id);
+  };
 
   onHandleChangeFilter = filter => {
     this.setState({ filter });
   };
 
-  // changinFilter = () => {
-  //   const { filter } = this.state;
-  //   if (filter === 'completed') {
-  //     this.setState(state => ({
-  //       active: state.active.filter(el => el.isActive),
-  //     }));
-  //   } else if (filter === 'isActive') {
-  //     this.setState(state => ({
-  //       active: state.active.filter(el => !el.isActive),
-  //     }));
-  //   } else {
-  //     this.setState({ active: this.props.active });
-  //   }
-  // };
-
   render() {
     const { active, filter } = this.state;
+    // const { enterGame } = this.props;
     let filtredActive;
     if (filter === 'closed') {
       filtredActive = active.filter(el => el.isActive);
@@ -150,7 +117,7 @@ class SimpleTable extends Component {
           </TableHead>
           <TableBody>
             {filtredActive.map((row, indx) => (
-              <TableRow key={row.name}>
+              <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {indx + 1}
                 </TableCell>
@@ -160,7 +127,11 @@ class SimpleTable extends Component {
                 <TableCell align="right">{row.betValue}</TableCell>
                 <TableCell align="right">{row.exitDate}</TableCell>
                 <TableCell align="right">
-                  <Button type="button" disabled={row.isActive === true}>
+                  <Button
+                    type="button"
+                    onClick={() => this.onHandleActiveGame(row.id)}
+                    disabled={row.isActive === true}
+                  >
                     apply
                   </Button>
                 </TableCell>
@@ -173,4 +144,11 @@ class SimpleTable extends Component {
   }
 }
 
-export default SimpleTable;
+const mapDispatchToProps = dispatch => ({
+  enterGame: id => dispatch(enterGame(id)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SimpleTable);

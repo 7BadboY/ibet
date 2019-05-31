@@ -1,8 +1,8 @@
-import { TABLE_SEARCH, TABLE_FILTER } from '../../utils/constans';
+import { TABLE_APLLY, TABLE_FILTER } from '../../utils/constans';
 
-export const searchUser = name => ({
-  type: TABLE_SEARCH,
-  payload: name,
+export const enterGame = id => ({
+  type: TABLE_APLLY,
+  payload: id,
 });
 
 export const filterGames = id => ({
