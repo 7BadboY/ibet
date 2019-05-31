@@ -25,6 +25,8 @@ const INITIALSTATE = {
     isAllInputFilled: true,
     isEmailValid: true,
   },
+  isLoaderShowed: false,
+  isConfetti: false,
 };
 
 const language = {
@@ -60,21 +62,15 @@ class LoginModal extends Component {
     ...INITIALSTATE,
     passwordLengthMustBe: 8,
     loginLengthMustBe: 4,
-    isLoaderShowed: false,
     defaultLanguage: `eng`,
     rightPassword: `123`, // test backend
     loginsBD: [`asd`, `123`], // test backend
     containerStyles: [styles.container],
     err: {},
-    isConfetti: false,
   };
 
   toogleLogin = () => {
     const { containerStyles } = this.state;
-
-    this.setState(state => ({
-      ...state,
-    }));
 
     if (containerStyles.length === 1) {
       this.setState(state => ({
