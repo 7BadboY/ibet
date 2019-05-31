@@ -1,10 +1,12 @@
+import { TOOGLE } from '../../utils/constants';
+
 const INITIALSTATE = {
   showModal: false,
 };
 
 const ModalLoginReducer = (state = INITIALSTATE, action) => {
   switch (action.type) {
-    case 'TOOGLE':
+    case TOOGLE:
       return {
         ...state,
         showModal: !state.showModal,

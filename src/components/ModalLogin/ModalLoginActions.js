@@ -1,6 +1,8 @@
+import { TOOGLE } from '../../utils/constants';
+
 export const toogleModalLogin = () => {
   return {
-    type: `TOOGLE`,
+    type: TOOGLE,
   };
 };
 

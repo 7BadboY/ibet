@@ -106,6 +106,7 @@ class LoginModal extends Component {
     passwordLengthMustBe: 8,
     loginLengthMustBe: 4,
     defaultLanguage: `eng`,
+    isEng: true,
     rightPassword: `123`, // test backend
     loginsBD: [`asd`, `123`], // test backend
     containerStyles: [styles.container],
@@ -227,14 +228,16 @@ class LoginModal extends Component {
   toogleLang = () => {
     const { defaultLanguage } = this.state;
     if (defaultLanguage === `eng`) {
-      this.setState({
+      this.setState(state => ({
         defaultLanguage: `rus`,
-      });
+        isEng: !state.isEng,
+      }));
     }
     if (defaultLanguage === `rus`) {
-      this.setState({
+      this.setState(state => ({
         defaultLanguage: `eng`,
-      });
+        isEng: !state.isEng,
+      }));
     }
   };
 
@@ -465,6 +468,7 @@ class LoginModal extends Component {
       err,
       isConfetti,
       defaultLanguage,
+      isEng,
     } = this.state;
     const { isModalshow, toogleModal } = this.props;
 
@@ -533,6 +537,7 @@ class LoginModal extends Component {
                 lang={language[defaultLanguage]}
                 toogleLogin={this.toogleLogin}
                 toogleLang={this.toogleLang}
+                isEng={isEng}
               />
             </div>
           </div>
