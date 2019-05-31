@@ -12,6 +12,8 @@ const SignUp = ({
   signUp,
   password,
   email,
+  lang,
+  err,
 }) => {
   return (
     <div
@@ -20,32 +22,35 @@ const SignUp = ({
       )}
     >
       <form action="#" className={styles[`modal-form`]}>
-        <h1 className={styles[`modal-h1`]}>Create Account</h1>
+        <h1 className={styles[`modal-h1`]}>{lang.text.signUpHeader}</h1>
         <TextField
+          error={!!err.login}
           id="outlined-name"
-          label="Login"
-          // className={useStyles.textField}
+          label={lang.text.login}
           onChange={onInputLogin}
           margin="normal"
           variant="outlined"
+          helperText={err.login}
         />
         <TextField
+          error={!!err.email}
           id="outlined-name"
-          label="Email"
-          // className={useStyles.textField}
+          label={lang.text.email}
           onChange={onInputEmail}
           margin="normal"
           variant="outlined"
           value={email}
+          helperText={err.email}
         />
         <TextField
+          error={!!err.password}
           id="outlined-name"
-          label="Password"
-          // className={useStyles.textField}
+          label={lang.text.password}
           onChange={onInputPassword}
           margin="normal"
           variant="outlined"
           value={password}
+          helperText={err.password}
         />
         <Button
           color="secondary"
@@ -54,7 +59,7 @@ const SignUp = ({
           onClick={signUp}
           size="large"
         >
-          Sign Up
+          {lang.text.signUpButton}
         </Button>
       </form>
     </div>
@@ -71,4 +76,6 @@ SignUp.propTypes = {
   errors: PropTypes.shape({}).isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
+  lang: PropTypes.shape({}).isRequired,
+  err: PropTypes.shape({}).isRequired,
 };

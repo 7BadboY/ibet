@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import styles from '../ModalLogin.module.css';
 import LanguageSwitch from '../LanguageSwitch/LaguageSwitch';
 
-const Overlay = ({ toogleLogin, toogleLang }) => {
+const Overlay = ({ toogleLogin, toogleLang, lang }) => {
   return (
     <div className={styles[`overlay-container`]}>
       <LanguageSwitch toogleLang={toogleLang} />
@@ -15,18 +15,15 @@ const Overlay = ({ toogleLogin, toogleLang }) => {
             ` `,
           )}
         >
-          <h1 className={styles[`modal-h1`]}>Welcome Back!</h1>
-          <p className={styles[`modal-p`]}>
-            To keep connected with us please login with your personal info
-          </p>
+          <h1 className={styles[`modal-h1`]}>{lang.text.textHeaderUp}</h1>
+          <p className={styles[`modal-p`]}>{lang.text.textContentUp}</p>
           <Button
             color="primary"
-            // className={[classes.button, styles.ghost].join(` `)}
             id="signUp"
             onClick={toogleLogin}
             size="large"
           >
-            Sign in
+            {lang.text.signInButton}
           </Button>
         </div>
         <div
@@ -34,18 +31,15 @@ const Overlay = ({ toogleLogin, toogleLang }) => {
             ` `,
           )}
         >
-          <h1 className={styles[`modal-h1`]}>Hello, Friend!</h1>
-          <p className={styles[`modal-p`]}>
-            Enter your personal details and start journey with us
-          </p>
+          <h1 className={styles[`modal-h1`]}>{lang.text.textHeaderIn}</h1>
+          <p className={styles[`modal-p`]}>{lang.text.textContentIn}</p>
           <Button
             color="primary"
-            // className={[classes.button, styles.ghost].join(` `)}
             id="signUp"
             onClick={toogleLogin}
             size="large"
           >
-            Sign up
+            {lang.text.signUpButton}
           </Button>
         </div>
       </div>
@@ -56,6 +50,7 @@ const Overlay = ({ toogleLogin, toogleLang }) => {
 Overlay.propTypes = {
   toogleLogin: PropTypes.func.isRequired,
   toogleLang: PropTypes.func.isRequired,
+  lang: PropTypes.shape({}).isRequired,
 };
 
 export default Overlay;

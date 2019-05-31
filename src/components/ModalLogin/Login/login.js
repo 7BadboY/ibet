@@ -13,6 +13,7 @@ const Login = ({
   email,
   password,
   err,
+  lang,
 }) => {
   return (
     <div
@@ -21,73 +22,40 @@ const Login = ({
       )}
     >
       <form action="#" className={styles[`modal-form`]}>
-        <h1 className={styles[`modal-h1`]}>Sign in</h1>
+        <h1 className={styles[`modal-h1`]}>{lang.text.signInHeader}</h1>
 
-        {!err.email ? (
-          <TextField
-            id="outlined-name"
-            label="Email"
-            value={email}
-            // className={useStyles.textField}
-            onChange={onInputEmail}
-            margin="normal"
-            variant="outlined"
-          />
-        ) : (
-          <TextField
-            error
-            id="filled-error"
-            label="Email"
-            value={email}
-            helperText={err.email}
-            // className={classes.textField}
-            margin="normal"
-            variant="filled"
-            onChange={onInputEmail}
-          />
-        )}
+        <TextField
+          error={!!err.email}
+          id="outlined-name"
+          label={lang.text.email}
+          value={email}
+          onChange={onInputEmail}
+          helperText={err.email}
+          margin="normal"
+          variant="outlined"
+        />
 
-        {!err.password ? (
-          <TextField
-            id="outlined-name"
-            label="Password"
-            value={password}
-            // className={useStyles.textField}
-            onChange={onInputPassword}
-            margin="normal"
-            variant="outlined"
-          />
-        ) : (
-          <TextField
-            error
-            id="filled-error"
-            label="Password"
-            value={password}
-            helperText={err.password}
-            // className={classes.textField}
-            margin="normal"
-            variant="filled"
-            onChange={onInputPassword}
-          />
-        )}
+        <TextField
+          error={!!err.password}
+          id="outlined-name"
+          label={lang.text.password}
+          value={password}
+          onChange={onInputPassword}
+          helperText={err.password}
+          margin="normal"
+          variant="outlined"
+        />
 
         <Button
           color="default"
-          // className={[classes.button, styles.ghost].join(` `)}
           id="signUp"
           onClick={() => alert('Sorry about that :(')}
           size="small"
         >
-          Forgot your password?
+          {lang.text.forgot}
         </Button>
-        <Button
-          color="secondary"
-          // className={[classes.button, styles.ghost].join(` `)}
-          id="signUp"
-          onClick={signIn}
-          size="large"
-        >
-          Sign in
+        <Button color="secondary" id="signUp" onClick={signIn} size="large">
+          {lang.text.signInButton}
         </Button>
       </form>
       {isLoaderShowed && <i className={styles.loader} />}
@@ -105,4 +73,5 @@ Login.propTypes = {
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   err: PropTypes.shape({}).isRequired,
+  lang: PropTypes.shape({}).isRequired,
 };

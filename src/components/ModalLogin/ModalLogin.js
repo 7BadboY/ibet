@@ -31,28 +31,71 @@ const INITIALSTATE = {
 
 const language = {
   eng: {
+    text: {
+      signInHeader: 'Sign in',
+      signUpHeader: 'Create Account',
+      signInButton: 'Sign in',
+      signUpButton: 'Sign up',
+      forgot: 'Forgot your password?',
+      login: 'Login',
+      email: 'Email',
+      password: 'Password',
+      textHeaderIn: 'Hello, Friend!',
+      textContentIn: 'Enter your personal details and start journey with us',
+      textHeaderUp: 'Welcome Back!',
+      textContentUp:
+        'To keep connected with us please login with your personal info',
+    },
     errors: {
       password: {
-        isPasswordOneWord: `Password must contain only one word`,
-        isPasswordRight: `Invalid Password`,
+        isPasswordRight: 'Invalid Password',
+        isPasswordOneWord: 'Password must contain only one word',
+        isPasswordLengsOk: 'Passwords must be at least 8 characters long',
       },
       email: {
-        isEmailValid: `Email is not valid`,
+        isEmailValid: 'Email is not valid',
       },
-    },
-    text: {
-      signIn: `asdasd`,
+      login: {
+        isLoginExist: 'This login already exists',
+        isLoginLengsOk: 'Login must be at least 4 characters long',
+      },
+      inputs: {
+        isAllInputFilled: 'All fields must be filled',
+      },
     },
   },
   rus: {
+    text: {
+      signInHeader: 'Вход',
+      signUpHeader: 'Создайте аккаунт',
+      signInButton: 'Вход',
+      signUpButton: 'Регистрация',
+      forgot: 'Забыли пароль?',
+      login: 'Логин',
+      email: 'Ел. почта',
+      password: 'Пароль',
+      textHeaderIn: 'Привет, приятель!',
+      textContentIn:
+        'Введите информацию о вас и начните Ваше путешествие с нами',
+      textHeaderUp: 'С возвращением!',
+      textContentUp: 'Чтобы оставаться с нами, зайдите в Ваш аккаунт',
+    },
     errors: {
       password: {
-        isPasswordOneWord: `Пароль должен быть из одного слова`,
-        passInvalid: `Invalid Password`,
+        isPasswordRight: 'Неверный пароль',
+        isPasswordOneWord: 'Пароль не должен содержать больше одного слова',
+        isPasswordLengsOk: 'Пароль должен быть не короче 8 символов',
       },
-    },
-    text: {
-      signIn: `asdasd`,
+      email: {
+        isEmailValid: 'Это не почта',
+      },
+      login: {
+        isLoginExist: 'Такой логин уже существует ',
+        isLoginLengsOk: 'Минимальная длинна логина - 4 символа',
+      },
+      inputs: {
+        isAllInputFilled: 'Все поля должны быт заполнены',
+      },
     },
   },
 };
@@ -200,6 +243,9 @@ class LoginModal extends Component {
 
     // Проверяем не пустые ли инпуты
     if (email === `` || password === ``) {
+      if (errors.isAllInputFilled === true) {
+        this.toogleIsAllInputFilled();
+      }
       return;
     }
 
@@ -219,6 +265,7 @@ class LoginModal extends Component {
       }
       return;
     }
+
     // Если с емейлом все ок то убираем <p> если она была показана
     if (validateEmail(email) && errors.isEmailValid === false) {
       this.toogleSomeError(`isEmailValid`);
@@ -231,7 +278,7 @@ class LoginModal extends Component {
     // Если больше то меняет стейт => Показывается <p> с ошибкой
     if (password.split(` `).length > 1) {
       if (errors.isPasswordOneWord === true) {
-        this.toogleIsPasswordOneWord();
+        this.toogleSomeError(`isPasswordOneWord`);
         if (!err.pas || err.pas !== `isPasswordOneWord`) {
           this.toogleIsEverythinkOk(`password`, `isPasswordOneWord`);
         }
@@ -245,7 +292,7 @@ class LoginModal extends Component {
       errors.isPasswordOneWord === false &&
       password.split(` `).length === 1
     ) {
-      this.toogleIsPasswordOneWord();
+      this.toogleSomeError(`isPasswordOneWord`);
       if (err.pas) {
         this.toogleIsEverythinkOk();
       }
@@ -417,6 +464,7 @@ class LoginModal extends Component {
       password,
       err,
       isConfetti,
+      defaultLanguage,
     } = this.state;
     const { isModalshow, toogleModal } = this.props;
 
@@ -461,6 +509,7 @@ class LoginModal extends Component {
                 className={styles.confetti}
               />
               <Login
+                lang={language[defaultLanguage]}
                 isLoaderShowed={isLoaderShowed}
                 onInputPassword={this.onInputPassword}
                 onInputEmail={this.onInputEmail}
@@ -470,6 +519,7 @@ class LoginModal extends Component {
                 err={err}
               />
               <SignUp
+                lang={language[defaultLanguage]}
                 errors={errors}
                 onInputLogin={this.onInputLogin}
                 onInputPassword={this.onInputPassword}
@@ -477,8 +527,10 @@ class LoginModal extends Component {
                 signUp={this.signUp}
                 email={email}
                 password={password}
+                err={err}
               />
               <Overlay
+                lang={language[defaultLanguage]}
                 toogleLogin={this.toogleLogin}
                 toogleLang={this.toogleLang}
               />
