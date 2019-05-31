@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import classes from './Header.module.css';
+// import PropTypes from 'prop-types';
+// import classes from './Header.module.css';
 
-function Header(props) {
+function Header() {
   return (
     <header>
       <nav>
@@ -11,6 +11,7 @@ function Header(props) {
           Home
         </NavLink>
         <NavLink to="/about">About</NavLink>
+        <NavLink to="/contactus">Contact Us</NavLink>
       </nav>
     </header>
   );

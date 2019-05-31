@@ -6,6 +6,7 @@ import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import ActiveGames from './pages/ActiveGames/ActiveGames';
 import Store from './store';
+import ContactUs from './pages/ContactUs/ContactUs';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/active/games" component={ActiveGames} />
+        <Route path="/contactus" component={ContactUs} />
       </Router>
     </Provider>
   );
