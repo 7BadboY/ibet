@@ -26,7 +26,7 @@ const Login = ({
 
         <TextField
           error={!!err.email}
-          id="outlined-name"
+          id="email-input2"
           label={lang.text.email}
           value={email}
           onChange={onInputEmail}
@@ -37,9 +37,10 @@ const Login = ({
 
         <TextField
           error={!!err.password}
-          id="outlined-name"
+          id="password-input2"
           label={lang.text.password}
           value={password}
+          type="password"
           onChange={onInputPassword}
           helperText={err.password}
           margin="normal"
@@ -48,13 +49,13 @@ const Login = ({
 
         <Button
           color="default"
-          id="signUp"
+          id="forgot-password"
           onClick={() => alert('Sorry about that :(')}
           size="small"
         >
           {lang.text.forgot}
         </Button>
-        <Button color="secondary" id="signUp" onClick={signIn} size="large">
+        <Button color="secondary" id="signIn" onClick={signIn} size="large">
           {lang.text.signInButton}
         </Button>
       </form>

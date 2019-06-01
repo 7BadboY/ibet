@@ -9,7 +9,11 @@ import transition from './transition.module.css';
 import Overlay from './Overlay/Overlay';
 import Login from './Login/login';
 import SignUp from './SignUp/SignUp';
-import { toogleModalLogin } from './ModalLoginActions';
+import {
+  toogleModalLogin,
+  asyncSignup,
+  toogleLogin,
+} from './ModalLoginActions';
 
 const INITIALSTATE = {
   login: ``,
@@ -24,6 +28,7 @@ const INITIALSTATE = {
     isLoginLengsOk: true,
     isAllInputFilled: true,
     isEmailValid: true,
+    isLoginANumber: false,
   },
   isLoaderShowed: false,
   isConfetti: false,
@@ -58,6 +63,7 @@ const language = {
       login: {
         isLoginExist: 'This login already exists',
         isLoginLengsOk: 'Login must be at least 4 characters long',
+        isLoginANumber: `Login cant be a number`,
       },
       inputs: {
         isAllInputFilled: 'All fields must be filled',
@@ -92,6 +98,7 @@ const language = {
       login: {
         isLoginExist: 'Такой логин уже существует ',
         isLoginLengsOk: 'Минимальная длинна логина - 4 символа',
+        isLoginANumber: `Логин не может состоять только из цифр`,
       },
       inputs: {
         isAllInputFilled: 'Все поля должны быт заполнены',
@@ -107,31 +114,65 @@ class LoginModal extends Component {
     loginLengthMustBe: 4,
     defaultLanguage: `eng`,
     isEng: true,
+
     rightPassword: `123`, // test backend
     loginsBD: [`asd`, `123`], // test backend
-    containerStyles: [styles.container],
+    // activeSignUp: false,
     err: {},
   };
 
-  toogleLogin = () => {
-    const { containerStyles } = this.state;
+  checkLoginInput = () => {
+    const { login, errors, loginLengthMustBe, err } = this.state;
+    // console.log(`isNan:`, isNaN(login));
 
-    if (containerStyles.length === 1) {
-      this.setState(state => ({
-        containerStyles: [
-          ...state.containerStyles,
-          styles[`right-panel-active`],
-        ],
-      }));
-    } else {
-      this.setState({
-        containerStyles: [styles.container],
-      });
+    // Проверяем длину логина
+    // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
+    const loginLength = login.split(``).length;
+    if (loginLength < loginLengthMustBe) {
+      if (errors.isLoginLengsOk) {
+        this.toogleSomeError(`isLoginLengsOk`);
+        if (!err.login || err.login !== `isLoginLengsOk`) {
+          this.toogleIsEverythinkOk(`login`, `isLoginLengsOk`);
+        }
+      }
+      return;
     }
+
+    // Если логин равен или больше стейта loginLengthMustBe,
+    // то убираем <p> если она была показа
+    if (loginLength >= loginLengthMustBe && errors.isLoginLengsOk === false) {
+      this.toogleSomeError(`isLoginLengsOk`);
+      this.toogleIsEverythinkOk();
+    }
+
+    // Проверяем состоит ли логин только из цифр
+    // Если да, то меняет стейт => Показывается <p> с ошибкой
+
+    // if (isNaN(login) === false) {
+    //   if (!errors.isLoginANumber) {
+    //     this.toogleSomeError(`isLoginANumber`);
+    //     if (!err.login || err.login !== `isLoginANumber`) {
+    //       this.toogleIsEverythinkOk(`login`, `isLoginANumber`);
+    //     }
+    //   }
+    //   return;
+    // }
+
+    // // Если логин равен или больше стейта loginLengthMustBe,
+    // // то убираем <p> если она была показа
+    // if (isNaN(login) === true) {
+    //   this.toogleSomeError(`isLoginANumber`);
+    //   this.toogleIsEverythinkOk();
+    // }
   };
 
   onInputLogin = e => {
+    console.log(`login input: `, e.target.value);
+
     this.setState({ login: e.target.value });
+    setTimeout(() => {
+      this.checkLoginInput();
+    }, 50);
   };
 
   onInputEmail = e => {
@@ -345,8 +386,10 @@ class LoginModal extends Component {
       loginsBD,
       errors,
       passwordLengthMustBe,
-      loginLengthMustBe,
+      // loginLengthMustBe,
     } = this.state;
+
+    const { sendSignup } = this.props;
 
     if (email === `` && password === `` && login === ``) {
       if (errors.isAllInputFilled === true) {
@@ -363,21 +406,21 @@ class LoginModal extends Component {
       this.toogleIsAllInputFilled();
     }
 
-    // Проверяем длину логина
-    // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
-    const loginLength = login.split(``).length;
-    if (loginLength < loginLengthMustBe) {
-      if (errors.isLoginLengsOk) {
-        this.toogleSomeError(`isLoginLengsOk`);
-      }
-      return;
-    }
+    // // Проверяем длину логина
+    // // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
+    // const loginLength = login.split(``).length;
+    // if (loginLength < loginLengthMustBe) {
+    //   if (errors.isLoginLengsOk) {
+    //     this.toogleSomeError(`isLoginLengsOk`);
+    //   }
+    //   return;
+    // }
 
-    // Если логин равен или больше стейта loginLengthMustBe,
-    // то убираем <p> если она была показа
-    if (loginLength >= loginLengthMustBe && errors.isLoginLengsOk === false) {
-      this.toogleSomeError(`isLoginLengsOk`);
-    }
+    // // Если логин равен или больше стейта loginLengthMustBe,
+    // // то убираем <p> если она была показа
+    // if (loginLength >= loginLengthMustBe && errors.isLoginLengsOk === false) {
+    //   this.toogleSomeError(`isLoginLengsOk`);
+    // }
 
     // Проверяем свободный ли логин
     // Если занят то меняет стейт => Показывается <p> с ошибкой
@@ -449,18 +492,19 @@ class LoginModal extends Component {
       this.toogleIsPasswordLengsOk();
     }
 
-    const NewUser = {
+    const newUser = {
       email,
       password,
-      login,
+      userName: login,
     };
 
-    console.log(NewUser);
+    sendSignup(newUser);
+
+    console.log(newUser);
   };
 
   render() {
     const {
-      containerStyles,
       errors,
       isLoaderShowed,
       email,
@@ -470,7 +514,7 @@ class LoginModal extends Component {
       defaultLanguage,
       isEng,
     } = this.state;
-    const { isModalshow, toogleModal } = this.props;
+    const { isModalshow, toogleModal, toogleSignUp, activeSignUp } = this.props;
 
     const config = {
       angle: '90',
@@ -485,9 +529,14 @@ class LoginModal extends Component {
       colors: ['#000', '#f00'],
     };
 
-    // if (!isModalshow) {
-    //   return null;
-    // }
+    let containerStyles = [styles.container];
+
+    if (!activeSignUp) {
+      containerStyles = [...containerStyles, styles[`right-panel-active`]];
+    } else if (activeSignUp) {
+      containerStyles = [styles.container];
+    }
+
     return (
       <CSSTransition
         in={isModalshow}
@@ -535,7 +584,7 @@ class LoginModal extends Component {
               />
               <Overlay
                 lang={language[defaultLanguage]}
-                toogleLogin={this.toogleLogin}
+                toogleLogin={toogleSignUp}
                 toogleLang={this.toogleLang}
                 isEng={isEng}
               />
@@ -549,17 +598,27 @@ class LoginModal extends Component {
 
 const stateToProps = state => ({
   isModalshow: state.modalLogin.showModal,
+  activeSignUp: state.modalLogin.activeSignUp,
 });
 
 const dispatchToProp = dispatch => ({
   toogleModal(e) {
     dispatch(toogleModalLogin(e));
   },
+  sendSignup(data) {
+    dispatch(asyncSignup(data));
+  },
+  toogleSignUp() {
+    dispatch(toogleLogin());
+  },
 });
 
 LoginModal.propTypes = {
   isModalshow: PropTypes.bool.isRequired,
   toogleModal: PropTypes.func.isRequired,
+  toogleSignUp: PropTypes.func.isRequired,
+  sendSignup: PropTypes.func.isRequired,
+  activeSignUp: PropTypes.bool.isRequired,
 };
 
 export default connect(

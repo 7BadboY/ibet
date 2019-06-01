@@ -19,7 +19,7 @@ const Overlay = ({ toogleLogin, toogleLang, lang, isEng }) => {
           <p className={styles[`modal-p`]}>{lang.text.textContentUp}</p>
           <Button
             color="primary"
-            id="signUp"
+            id="signInButton"
             onClick={toogleLogin}
             size="large"
           >
@@ -35,7 +35,7 @@ const Overlay = ({ toogleLogin, toogleLang, lang, isEng }) => {
           <p className={styles[`modal-p`]}>{lang.text.textContentIn}</p>
           <Button
             color="primary"
-            id="signUp"
+            id="signUpButton"
             onClick={toogleLogin}
             size="large"
           >

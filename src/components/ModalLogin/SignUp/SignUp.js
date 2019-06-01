@@ -25,7 +25,7 @@ const SignUp = ({
         <h1 className={styles[`modal-h1`]}>{lang.text.signUpHeader}</h1>
         <TextField
           error={!!err.login}
-          id="outlined-name"
+          id="login-input"
           label={lang.text.login}
           onChange={onInputLogin}
           margin="normal"
@@ -34,7 +34,7 @@ const SignUp = ({
         />
         <TextField
           error={!!err.email}
-          id="outlined-name"
+          id="email-input"
           label={lang.text.email}
           onChange={onInputEmail}
           margin="normal"
@@ -44,7 +44,8 @@ const SignUp = ({
         />
         <TextField
           error={!!err.password}
-          id="outlined-name"
+          type="password"
+          id="password-input"
           label={lang.text.password}
           onChange={onInputPassword}
           margin="normal"
@@ -73,7 +74,6 @@ SignUp.propTypes = {
   onInputPassword: PropTypes.func.isRequired,
   onInputEmail: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
-  errors: PropTypes.shape({}).isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   lang: PropTypes.shape({}).isRequired,
