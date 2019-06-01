@@ -123,7 +123,7 @@ class LoginModal extends Component {
 
   checkLoginInput = () => {
     const { login, errors, loginLengthMustBe, err } = this.state;
-    // console.log(`isNan:`, isNaN(login));
+    console.log(`isNan:`, isNaN(login));
 
     // Проверяем длину логина
     // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
@@ -148,22 +148,22 @@ class LoginModal extends Component {
     // Проверяем состоит ли логин только из цифр
     // Если да, то меняет стейт => Показывается <p> с ошибкой
 
-    // if (isNaN(login) === false) {
-    //   if (!errors.isLoginANumber) {
-    //     this.toogleSomeError(`isLoginANumber`);
-    //     if (!err.login || err.login !== `isLoginANumber`) {
-    //       this.toogleIsEverythinkOk(`login`, `isLoginANumber`);
-    //     }
-    //   }
-    //   return;
-    // }
+    if (isNaN(login) === false) {
+      if (!errors.isLoginANumber) {
+        this.toogleSomeError(`isLoginANumber`);
+        if (!err.login || err.login !== `isLoginANumber`) {
+          this.toogleIsEverythinkOk(`login`, `isLoginANumber`);
+        }
+      }
+      return;
+    }
 
-    // // Если логин равен или больше стейта loginLengthMustBe,
-    // // то убираем <p> если она была показа
-    // if (isNaN(login) === true) {
-    //   this.toogleSomeError(`isLoginANumber`);
-    //   this.toogleIsEverythinkOk();
-    // }
+    // Если логин равен или больше стейта loginLengthMustBe,
+    // то убираем <p> если она была показа
+    if (isNaN(login) === true) {
+      this.toogleSomeError(`isLoginANumber`);
+      this.toogleIsEverythinkOk();
+    }
   };
 
   onInputLogin = e => {
