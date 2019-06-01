@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import { CSSTransition } from 'react-transition-group';
 import Confetti from 'react-dom-confetti';
+import { setTimeout } from 'timers';
 import styles from './ModalLogin.module.css';
 import transition from './transition.module.css';
 import Overlay from './Overlay/Overlay';
@@ -131,7 +132,7 @@ class LoginModal extends Component {
     err: {},
   };
 
-  checkLoginInput = () => {
+  validateLoginInput = () => {
     const { login, errors, loginLengthMustBe, loginMaxLength } = this.state;
     const loginMass = login.split(``);
     const regLatin = new RegExp('^[a-zA-Z0-9]+$'); // Кириллица ли?
@@ -219,8 +220,8 @@ class LoginModal extends Component {
   onInputLogin = e => {
     this.setState({ login: e.target.value });
     setTimeout(() => {
-      this.checkLoginInput();
-    }, 50);
+      this.validateLoginInput();
+    }, 30);
   };
 
   onInputEmail = e => {
@@ -328,6 +329,9 @@ class LoginModal extends Component {
         isEng: !state.isEng,
       }));
     }
+    setTimeout(() => {
+      this.validateLoginInput();
+    }, 10);
   };
 
   signIn = () => {
