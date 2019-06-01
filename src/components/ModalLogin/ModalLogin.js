@@ -29,7 +29,6 @@ const INITIALSTATE = {
     isLoginLengsOk: true,
     isAllInputFilled: true,
     isEmailValid: true,
-    isLoginANumber: false,
     IsLoginFirstDigit: false,
     isLoginInEng: true,
     isLoginLengthToMuch: false,
@@ -67,7 +66,6 @@ const language = {
       login: {
         isLoginExist: 'This login already exists',
         isLoginLengsOk: 'Login must be at least 4 characters long',
-        isLoginANumber: `Login cant be a number`,
         IsLoginFirstDigit: `Login cant begin from a number`,
         isLoginInEng: `Login can only contain latin letters and digits`,
         isLoginLengthToMuch: `Login can only contain 10 characters`,
@@ -105,7 +103,6 @@ const language = {
       login: {
         isLoginExist: 'Такой логин уже существует ',
         isLoginLengsOk: 'Минимальная длинна логина - 4 символа',
-        isLoginANumber: `Логин не может состоять только из цифр`,
         IsLoginFirstDigit: `Логин не может начинаться с цифры`,
         isLoginInEng: `Логин может состоять только из латинских букв и цифр`,
         isLoginLengthToMuch: `Логин может содержать до 10 символов`,
@@ -134,9 +131,15 @@ class LoginModal extends Component {
 
   validateLoginInput = () => {
     const { login, errors, loginLengthMustBe, loginMaxLength } = this.state;
-    const loginMass = login.split(``);
-    const regLatin = new RegExp('^[a-zA-Z0-9]+$'); // Кириллица ли?
+    const loginMass = login.split(``).length; // Длина логина
+    const regLatin = new RegExp('^[a-zA-Z0-9]+$'); // Кириллица ли
     const regFirstNum = new RegExp(`^[0-9]`); // Число ли первый символ
+
+    // Пасхалочка
+    if (login === `Pasha`) {
+      this.toogleConfetti();
+      this.toogleConfetti();
+    }
 
     // Проверяем логин на кириллицу
     // Если есть на латинские буквы или цифры то меняет стейт => Показывается <p> с ошибкой
@@ -178,7 +181,7 @@ class LoginModal extends Component {
 
     // Проверяем длину логина
     // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
-    if (loginMass.length < loginLengthMustBe) {
+    if (loginMass < loginLengthMustBe) {
       console.log('Логин Короче нужной длины');
       this.toogleIsEverythinkOk(`login`, `isLoginLengsOk`);
       if (errors.isLoginLengsOk) {
@@ -189,7 +192,7 @@ class LoginModal extends Component {
 
     // Если логин равен или больше стейта loginLengthMustBe,
     // то убираем <p> если она была показа
-    if (loginMass.length >= loginLengthMustBe && !errors.isLoginLengsOk) {
+    if (loginMass >= loginLengthMustBe && !errors.isLoginLengsOk) {
       console.log('Логин Нормальной длины');
       this.toogleSomeError(`isLoginLengsOk`);
       this.toogleIsEverythinkOk();
@@ -197,7 +200,7 @@ class LoginModal extends Component {
 
     // Проверяем длину логина
     // Если больше чем loginMaxLength то меняет стейт => Показывается <p> с ошибкой
-    if (loginMass.length > loginMaxLength) {
+    if (loginMass > loginMaxLength) {
       console.log('Логин длинее нужной длины');
       this.toogleIsEverythinkOk(`login`, `isLoginLengthToMuch`);
       if (!errors.isLoginLengthToMuch) {
@@ -208,7 +211,7 @@ class LoginModal extends Component {
 
     // Если логин меньше или равен стейта loginMaxLength,
     // то убираем <p> если она была показа
-    if (loginMass.length <= loginMaxLength && errors.isLoginLengthToMuch) {
+    if (loginMass <= loginMaxLength && errors.isLoginLengthToMuch) {
       console.log('Логин Нормальной длины');
       this.toogleSomeError(`isLoginLengthToMuch`);
       this.toogleIsEverythinkOk();
@@ -414,10 +417,6 @@ class LoginModal extends Component {
           return;
         }
         return;
-      }
-      if (user.email === `Pasha@pasha.com`) {
-        this.toogleConfetti();
-        this.toogleConfetti();
       }
 
       // Если пароль правильный то убираем <p> если она была показа
