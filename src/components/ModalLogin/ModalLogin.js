@@ -29,6 +29,9 @@ const INITIALSTATE = {
     isAllInputFilled: true,
     isEmailValid: true,
     isLoginANumber: false,
+    IsLoginFirstDigit: false,
+    isLoginInEng: true,
+    isLoginLengthToMuch: false,
   },
   isLoaderShowed: false,
   isConfetti: false,
@@ -64,6 +67,9 @@ const language = {
         isLoginExist: 'This login already exists',
         isLoginLengsOk: 'Login must be at least 4 characters long',
         isLoginANumber: `Login cant be a number`,
+        IsLoginFirstDigit: `Login cant begin from a number`,
+        isLoginInEng: `Login can only contain latin letters and digits`,
+        isLoginLengthToMuch: `Login can only contain 10 characters`,
       },
       inputs: {
         isAllInputFilled: 'All fields must be filled',
@@ -99,6 +105,9 @@ const language = {
         isLoginExist: 'Такой логин уже существует ',
         isLoginLengsOk: 'Минимальная длинна логина - 4 символа',
         isLoginANumber: `Логин не может состоять только из цифр`,
+        IsLoginFirstDigit: `Логин не может начинаться с цифры`,
+        isLoginInEng: `Логин может состоять только из латинских букв и цифр`,
+        isLoginLengthToMuch: `Логин может содержать до 10 символов`,
       },
       inputs: {
         isAllInputFilled: 'Все поля должны быт заполнены',
@@ -112,6 +121,7 @@ class LoginModal extends Component {
     ...INITIALSTATE,
     passwordLengthMustBe: 8,
     loginLengthMustBe: 4,
+    loginMaxLength: 10,
     defaultLanguage: `eng`,
     isEng: true,
 
@@ -122,53 +132,91 @@ class LoginModal extends Component {
   };
 
   checkLoginInput = () => {
-    const { login, errors, loginLengthMustBe, err } = this.state;
-    console.log(`isNan:`, isNaN(login));
+    const { login, errors, loginLengthMustBe, loginMaxLength } = this.state;
+    const loginMass = login.split(``);
+    const regLatin = new RegExp('^[a-zA-Z0-9]+$'); // Кириллица ли?
+    const regFirstNum = new RegExp(`^[0-9]`); // Число ли первый символ
+
+    // Проверяем логин на кириллицу
+    // Если есть на латинские буквы или цифры то меняет стейт => Показывается <p> с ошибкой
+    if (!regLatin.test(login) && login !== ``) {
+      console.log(`Логин содержит кириллицу`);
+      this.toogleIsEverythinkOk(`login`, `isLoginInEng`);
+      if (errors.isLoginInEng) {
+        this.toogleSomeError(`isLoginInEng`);
+      }
+      return false;
+    }
+
+    // Если логин только на латинице с цифрами
+    // то убираем <p> если она была показа
+    if (regLatin.test(login) && !errors.isLoginInEng) {
+      console.log(`Теперь логин не содержит кириллицу`);
+      this.toogleIsEverythinkOk();
+      this.toogleSomeError(`isLoginInEng`);
+    }
+
+    // Проверяем цифра ли первый символ
+    // Если цифра то меняет стейт => Показывается <p> с ошибкой
+    if (regFirstNum.test(login)) {
+      console.log(`Первый символ число`);
+      this.toogleIsEverythinkOk(`login`, `IsLoginFirstDigit`);
+      if (!errors.IsLoginFirstDigit) {
+        this.toogleSomeError(`IsLoginFirstDigit`);
+      }
+      return false;
+    }
+
+    // Если логин не начинается с цифры
+    // то убираем <p> если она была показа
+    if (!regFirstNum.test(login) && errors.IsLoginFirstDigit) {
+      console.log(`Теперь логин не начинается с цифры`);
+      this.toogleSomeError(`IsLoginFirstDigit`);
+      this.toogleIsEverythinkOk();
+    }
 
     // Проверяем длину логина
     // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
-    const loginLength = login.split(``).length;
-    if (loginLength < loginLengthMustBe) {
+    if (loginMass.length < loginLengthMustBe) {
+      console.log('Логин Короче нужной длины');
+      this.toogleIsEverythinkOk(`login`, `isLoginLengsOk`);
       if (errors.isLoginLengsOk) {
         this.toogleSomeError(`isLoginLengsOk`);
-        if (!err.login || err.login !== `isLoginLengsOk`) {
-          this.toogleIsEverythinkOk(`login`, `isLoginLengsOk`);
-        }
       }
-      return;
+      return false;
     }
 
     // Если логин равен или больше стейта loginLengthMustBe,
     // то убираем <p> если она была показа
-    if (loginLength >= loginLengthMustBe && errors.isLoginLengsOk === false) {
+    if (loginMass.length >= loginLengthMustBe && !errors.isLoginLengsOk) {
+      console.log('Логин Нормальной длины');
       this.toogleSomeError(`isLoginLengsOk`);
       this.toogleIsEverythinkOk();
     }
 
-    // Проверяем состоит ли логин только из цифр
-    // Если да, то меняет стейт => Показывается <p> с ошибкой
-
-    if (isNaN(login) === false) {
-      if (!errors.isLoginANumber) {
-        this.toogleSomeError(`isLoginANumber`);
-        if (!err.login || err.login !== `isLoginANumber`) {
-          this.toogleIsEverythinkOk(`login`, `isLoginANumber`);
-        }
+    // Проверяем длину логина
+    // Если больше чем loginMaxLength то меняет стейт => Показывается <p> с ошибкой
+    if (loginMass.length > loginMaxLength) {
+      console.log('Логин длинее нужной длины');
+      this.toogleIsEverythinkOk(`login`, `isLoginLengthToMuch`);
+      if (!errors.isLoginLengthToMuch) {
+        this.toogleSomeError(`isLoginLengthToMuch`);
       }
-      return;
+      return false;
     }
 
-    // Если логин равен или больше стейта loginLengthMustBe,
+    // Если логин меньше или равен стейта loginMaxLength,
     // то убираем <p> если она была показа
-    if (isNaN(login) === true) {
-      this.toogleSomeError(`isLoginANumber`);
+    if (loginMass.length <= loginMaxLength && errors.isLoginLengthToMuch) {
+      console.log('Логин Нормальной длины');
+      this.toogleSomeError(`isLoginLengthToMuch`);
       this.toogleIsEverythinkOk();
     }
+
+    return true;
   };
 
   onInputLogin = e => {
-    console.log(`login input: `, e.target.value);
-
     this.setState({ login: e.target.value });
     setTimeout(() => {
       this.checkLoginInput();
