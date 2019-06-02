@@ -5,15 +5,18 @@ import Fab from '@material-ui/core/Fab';
 import { CSSTransition } from 'react-transition-group';
 import Confetti from 'react-dom-confetti';
 import { setTimeout } from 'timers';
+import { SnackbarProvider } from 'notistack';
 import styles from './ModalLogin.module.css';
 import transition from './transition.module.css';
 import Overlay from './Overlay/Overlay';
 import Login from './Login/login';
 import SignUp from './SignUp/SignUp';
+import CustomizedSnackbars from './CustomizedSnackbars/CustomizedSnackbars';
 import {
   toogleModalLogin,
   asyncSignup,
   toogleLogin,
+  asyncSignin,
 } from './ModalLoginActions';
 
 const INITIALSTATE = {
@@ -130,11 +133,14 @@ class LoginModal extends Component {
     loginMaxLength: 10,
     defaultLanguage: `eng`,
     isEng: true,
-
-    rightPassword: `123`, // test backend
-    loginsBD: [`asd`, `123`], // test backend
-    // activeSignUp: false,
+    isShowedForgetPassword: false,
     err: {},
+  };
+
+  toogleForgetPas = () => {
+    this.setState(state => ({
+      isShowedForgetPassword: !state.isShowedForgetPassword,
+    }));
   };
 
   validateLoginInput = () => {
@@ -299,7 +305,7 @@ class LoginModal extends Component {
 
     // Проверяем содержит ли пароль в себе логин
     // Если больше чем passwordMaxLength то меняет стейт => Показывается <p> с ошибкой
-    if (regLogin.test(password)) {
+    if (regLogin.test(password) && login !== ``) {
       console.log('Пароль такой же как и логин');
       this.toogleIsEverythinkOk(`password`, `isPasswordContainLogin`);
       if (errors.isPasswordContainLogin) {
@@ -446,6 +452,7 @@ class LoginModal extends Component {
 
   signIn = () => {
     const { email, password, rightPassword, errors, err } = this.state;
+    const { sendSignIn } = this.props;
 
     // Проверяем не пустые ли инпуты
     if (email === `` || password === ``) {
@@ -461,6 +468,8 @@ class LoginModal extends Component {
       password,
     };
     console.log(user);
+
+    sendSignIn(user);
 
     setTimeout(() => {
       this.toogleIsLoaderShowed();
@@ -486,15 +495,7 @@ class LoginModal extends Component {
   };
 
   signUp = () => {
-    const {
-      email,
-      password,
-      login,
-      loginsBD,
-      errors,
-      passwordLengthMustBe,
-      // loginLengthMustBe,
-    } = this.state;
+    const { email, password, login, errors } = this.state;
 
     const { sendSignup } = this.props;
 
@@ -511,92 +512,6 @@ class LoginModal extends Component {
       errors.isAllInputFilled === false
     ) {
       this.toogleIsAllInputFilled();
-    }
-
-    // // Проверяем длину логина
-    // // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
-    // const loginLength = login.split(``).length;
-    // if (loginLength < loginLengthMustBe) {
-    //   if (errors.isLoginLengsOk) {
-    //     this.toogleSomeError(`isLoginLengsOk`);
-    //   }
-    //   return;
-    // }
-
-    // // Если логин равен или больше стейта loginLengthMustBe,
-    // // то убираем <p> если она была показа
-    // if (loginLength >= loginLengthMustBe && errors.isLoginLengsOk === false) {
-    //   this.toogleSomeError(`isLoginLengsOk`);
-    // }
-
-    // Проверяем свободный ли логин
-    // Если занят то меняет стейт => Показывается <p> с ошибкой
-
-    const isLoginExist = loginsBD.includes(login);
-    if (isLoginExist) {
-      if (errors.isLoginExist === false) {
-        this.toogleIsLoginExist();
-      }
-      return;
-    }
-    // Если логин свободен то убираем <p> если она была показа
-    if (!isLoginExist && errors.isLoginExist === true) {
-      this.toogleIsLoginExist();
-    }
-
-    // Делаем валидацию Емейл
-    // Если не валид то меняет стейт => Показывается <p> с ошибкой
-    const validateEmail = m => {
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(m);
-    };
-
-    if (!validateEmail(email)) {
-      if (errors.isEmailValid) {
-        this.toogleSomeError(`isEmailValid`);
-      }
-      return;
-    }
-    // Если с емейлом все ок то убираем <p> если она была показана
-    if (validateEmail(email) && errors.isEmailValid === false) {
-      this.toogleSomeError(`isEmailValid`);
-    }
-
-    if (password.split(` `).length > 1) {
-      // Проверяем что б пароль был из 1го слова,
-      // Если больше то меняет стейт => Показывается <p> с ошибкой
-      if (errors.isPasswordOneWord === true) {
-        this.toogleIsPasswordOneWord();
-        return;
-      }
-      return;
-    }
-
-    // Если пароль из 1го слова то убираем <p> если она была показана
-    if (
-      errors.isPasswordOneWord === false &&
-      password.split(` `).length === 1
-    ) {
-      this.toogleIsPasswordOneWord();
-    }
-
-    // Проверяем длину пароля, он должен быть больше чем стейт passwordLengthMustBe
-    // Если меньше то меняет стейт => Показывается <p> с ошибкой
-    const passLength = password.split(``).length;
-    if (passLength < passwordLengthMustBe) {
-      if (errors.isPasswordLengsOk === true) {
-        this.toogleIsPasswordLengsOk();
-      }
-      return;
-    }
-
-    // Если пароль равен или больше стейта passwordLengthMustBe,
-    // то убираем <p> если она была показа
-    if (
-      passLength >= passwordLengthMustBe &&
-      errors.isPasswordLengsOk === false
-    ) {
-      this.toogleIsPasswordLengsOk();
     }
 
     const newUser = {
@@ -620,6 +535,7 @@ class LoginModal extends Component {
       isConfetti,
       defaultLanguage,
       isEng,
+      isShowedForgetPassword,
     } = this.state;
     const { isModalshow, toogleModal, toogleSignUp, activeSignUp } = this.props;
 
@@ -645,60 +561,71 @@ class LoginModal extends Component {
     }
 
     return (
-      <CSSTransition
-        in={isModalshow}
-        timeout={400}
-        classNames={transition}
-        unmountOnExit
-      >
-        {() => (
-          <div className={styles.wrapper}>
-            <div className={containerStyles.join(` `)}>
-              <Fab
-                color="primary"
-                aria-label="Add"
-                className={styles[`modal-close`]}
-                size="small"
-                onClick={toogleModal}
-              >
-                X
-              </Fab>
-              <Confetti
-                active={isConfetti}
-                config={config}
-                className={styles.confetti}
-              />
-              <Login
-                lang={language[defaultLanguage]}
-                isLoaderShowed={isLoaderShowed}
-                onInputPassword={this.onInputPassword}
-                onInputEmail={this.onInputEmail}
-                signIn={this.signIn}
-                email={email}
-                password={password}
-                err={err}
-              />
-              <SignUp
-                lang={language[defaultLanguage]}
-                errors={errors}
-                onInputLogin={this.onInputLogin}
-                onInputPassword={this.onInputPassword}
-                onInputEmail={this.onInputEmail}
-                signUp={this.signUp}
-                email={email}
-                password={password}
-                err={err}
-              />
-              <Overlay
-                lang={language[defaultLanguage]}
-                toogleLogin={toogleSignUp}
-                toogleLang={this.toogleLang}
-                isEng={isEng}
-              />
+      <>
+        <CustomizedSnackbars
+          bool={isShowedForgetPassword}
+          toogleFunc={this.toogleForgetPas}
+          variant="error"
+          message="Sorry About that ;("
+        />
+        <CSSTransition
+          in={isModalshow}
+          timeout={400}
+          classNames={transition}
+          unmountOnExit
+        >
+          {() => (
+            <div className={styles.wrapper}>
+              <div className={containerStyles.join(` `)}>
+                {/* Крестик для закрытия модалки */}
+                <Fab
+                  color="primary"
+                  aria-label="Add"
+                  className={styles[`modal-close`]}
+                  size="small"
+                  onClick={toogleModal}
+                >
+                  X
+                </Fab>
+                {/* Пасхалка конфети */}
+                <Confetti
+                  active={isConfetti}
+                  config={config}
+                  className={styles.confetti}
+                />
+                <Login
+                  lang={language[defaultLanguage]}
+                  isLoaderShowed={isLoaderShowed}
+                  onInputPassword={this.onInputPassword}
+                  onInputEmail={this.onInputEmail}
+                  signIn={this.signIn}
+                  email={email}
+                  password={password}
+                  err={err}
+                  forgetPasFunc={this.toogleForgetPas}
+                />
+                <SignUp
+                  lang={language[defaultLanguage]}
+                  errors={errors}
+                  onInputLogin={this.onInputLogin}
+                  onInputPassword={this.onInputPassword}
+                  onInputEmail={this.onInputEmail}
+                  signUp={this.signUp}
+                  email={email}
+                  password={password}
+                  err={err}
+                />
+                <Overlay
+                  lang={language[defaultLanguage]}
+                  toogleLogin={toogleSignUp}
+                  toogleLang={this.toogleLang}
+                  isEng={isEng}
+                />
+              </div>
             </div>
-          </div>
-        )}
-      </CSSTransition>
+          )}
+        </CSSTransition>
+      </>
     );
   }
 }
@@ -718,6 +645,9 @@ const dispatchToProp = dispatch => ({
   toogleSignUp() {
     dispatch(toogleLogin());
   },
+  sendSignIn(data) {
+    dispatch(asyncSignin(data));
+  },
 });
 
 LoginModal.propTypes = {
@@ -726,6 +656,7 @@ LoginModal.propTypes = {
   toogleSignUp: PropTypes.func.isRequired,
   sendSignup: PropTypes.func.isRequired,
   activeSignUp: PropTypes.bool.isRequired,
+  sendSignIn: PropTypes.func.isRequired,
 };
 
 export default connect(

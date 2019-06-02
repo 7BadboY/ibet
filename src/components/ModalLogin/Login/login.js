@@ -14,6 +14,7 @@ const Login = ({
   password,
   err,
   lang,
+  forgetPasFunc,
 }) => {
   return (
     <div
@@ -50,7 +51,7 @@ const Login = ({
         <Button
           color="default"
           id="forgot-password"
-          onClick={() => alert('Sorry about that :(')}
+          onClick={forgetPasFunc}
           size="small"
         >
           {lang.text.forgot}
@@ -75,4 +76,5 @@ Login.propTypes = {
   password: PropTypes.string.isRequired,
   err: PropTypes.shape({}).isRequired,
   lang: PropTypes.shape({}).isRequired,
+  forgetPasFunc: PropTypes.func.isRequired,
 };

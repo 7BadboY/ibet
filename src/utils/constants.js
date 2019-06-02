@@ -1,4 +1,7 @@
 // MODAL LOGIN
 export const TOOGLE = `MODAL: TOOGLE`;
 export const TOOGLE_LOGIN = `MODAL: TOOGLE_LOGIN`;
+export const SIGNUP_SUCCESS = `MODAL: SIGNUP_SUCCESS`;
+export const SIGNIN_SUCCESS = `MODAL: SIGNIN_SUCCESS`;
+
 export const EXAMPLE = `EXAMPLE`;
