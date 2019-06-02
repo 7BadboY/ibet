@@ -48,12 +48,12 @@ const useStyles1 = makeStyles(theme => ({
 
 function MySnackbarContentWrapper(props) {
   const classes = useStyles1();
-  const { className, message, onClose, variant, ...other } = props;
+  const { message, onClose, variant, ...other } = props;
   const Icon = variantIcon[variant];
 
   return (
     <SnackbarContent
-      className={clsx(classes[variant], className)}
+      className={clsx(classes[variant])}
       aria-describedby="client-snackbar"
       message={
         <span id="client-snackbar" className={classes.message}>
@@ -77,7 +77,6 @@ function MySnackbarContentWrapper(props) {
 }
 
 MySnackbarContentWrapper.propTypes = {
-  className: PropTypes.string.isRequired,
   message: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
@@ -109,5 +108,5 @@ CustomizedSnackbars.propTypes = {
   bool: PropTypes.bool.isRequired,
   toogleFunc: PropTypes.func.isRequired,
   variant: PropTypes.string.isRequired,
-  message: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
 };

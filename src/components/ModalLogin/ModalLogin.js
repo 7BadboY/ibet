@@ -125,6 +125,11 @@ const language = {
 };
 
 class LoginModal extends Component {
+  constructor() {
+    super();
+    this.closeModal = this.closeModal;
+  }
+
   state = {
     ...INITIALSTATE,
     passwordLengthMustBe: 8,
@@ -135,6 +140,25 @@ class LoginModal extends Component {
     isEng: true,
     isShowedForgetPassword: false,
     err: {},
+  };
+
+  componentDidMount = () => {
+    console.log(`ComponentDidMount`);
+    window.addEventListener(`click`, this.closeModal);
+  };
+
+  componentWillUnmount = () => {
+    console.log(`ComponentWillUnmount`);
+    window.removeEventListener(`click`, this.closeModal);
+  };
+
+  closeModal = e => {
+    console.log(`Лисенер РАБОТАЕТ;(`);
+    const modal = document.getElementById(`wrapper`);
+    const { toogleModal } = this.props;
+    if (e.target === modal) {
+      toogleModal();
+    }
   };
 
   toogleForgetPas = () => {
@@ -561,21 +585,21 @@ class LoginModal extends Component {
     }
 
     return (
-      <>
-        <CustomizedSnackbars
-          bool={isShowedForgetPassword}
-          toogleFunc={this.toogleForgetPas}
-          variant="error"
-          message="Sorry About that ;("
-        />
-        <CSSTransition
-          in={isModalshow}
-          timeout={400}
-          classNames={transition}
-          unmountOnExit
-        >
-          {() => (
-            <div className={styles.wrapper}>
+      <CSSTransition
+        in={isModalshow}
+        timeout={400}
+        classNames={transition}
+        unmountOnExit
+      >
+        {() => (
+          <>
+            <CustomizedSnackbars
+              bool={isShowedForgetPassword}
+              toogleFunc={this.toogleForgetPas}
+              variant="error"
+              message="Sorry About that  ;("
+            />
+            <div className={styles.wrapper} id="wrapper">
               <div className={containerStyles.join(` `)}>
                 {/* Крестик для закрытия модалки */}
                 <Fab
@@ -623,9 +647,9 @@ class LoginModal extends Component {
                 />
               </div>
             </div>
-          )}
-        </CSSTransition>
-      </>
+          </>
+        )}
+      </CSSTransition>
     );
   }
 }
