@@ -9,6 +9,7 @@ import transition from './transition.module.css';
 import Overlay from './Overlay/Overlay';
 import Login from './Login/login';
 import SignUp from './SignUp/SignUp';
+import randomUserName from '../../utils/ModalLogin/randomLogin';
 import {
   toogleModalLogin,
   asyncSignup,
@@ -161,6 +162,13 @@ class LoginModal extends Component {
     if (e.target === modal) {
       toogleModal();
     }
+  };
+
+  setRandomLogin = () => {
+    this.setState({ login: randomUserName() });
+    setTimeout(() => {
+      this.validateLoginInput();
+    }, 30);
   };
 
   handleClickVariant = (variant, message) => () => {
@@ -566,6 +574,7 @@ class LoginModal extends Component {
       isConfetti,
       defaultLanguage,
       isEng,
+      login,
     } = this.state;
     const { isModalshow, toogleModal, toogleSignUp, activeSignUp } = this.props;
 
@@ -641,6 +650,8 @@ class LoginModal extends Component {
                   email={email}
                   password={password}
                   err={err}
+                  login={login}
+                  setRandomLogin={this.setRandomLogin}
                 />
                 <Overlay
                   lang={language[defaultLanguage]}

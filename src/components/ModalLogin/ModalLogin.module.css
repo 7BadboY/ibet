@@ -221,6 +221,13 @@
   transform: translate(-50%);
 }
 
+.randomUserBtn {
+  position: absolute;
+  position: absolute;
+  top: 148px;
+  right: 56px;
+}
+
 * {
   margin: 0;
   padding: 0;
