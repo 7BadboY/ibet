@@ -3,6 +3,8 @@ import {
   TOOGLE_LOGIN,
   SIGNUP_SUCCESS,
   SIGNIN_SUCCESS,
+  SIGNIN_ERROR,
+  CLEAR_NOTIFICATION,
 } from '../../utils/constants';
 
 export const toogleModalLogin = () => {
@@ -29,6 +31,18 @@ export const signInSuccess = () => {
   };
 };
 
+export const signInError = () => {
+  return {
+    type: SIGNIN_ERROR,
+  };
+};
+
+export const clearNotification = () => {
+  return {
+    type: CLEAR_NOTIFICATION,
+  };
+};
+
 export const asyncSignin = userData => dispatch => {
   fetch('http://localhost:8080/api/auth/signin', {
     method: 'POST',
@@ -45,6 +59,8 @@ export const asyncSignin = userData => dispatch => {
     })
     .catch(err => {
       console.log(err);
+      dispatch(signInError());
+      dispatch(clearNotification());
     });
 };
 
@@ -67,5 +83,7 @@ export const asyncSignup = userData => dispatch => {
     })
     .catch(err => {
       console.log(err);
+      dispatch(signInError());
+      dispatch(clearNotification());
     });
 };

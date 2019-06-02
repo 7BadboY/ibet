@@ -90,6 +90,7 @@ const language = {
     nitifications: {
       langSwitch: `Выбран русский язык`,
       forgotPas: `Sorry about this ;(`,
+      error: `Something went wrong`,
     },
   },
   rus: {
@@ -136,6 +137,7 @@ const language = {
     nitifications: {
       langSwitch: `English language selected`,
       forgotPas: `Сожалеем об этом ;(`,
+      error: `Что то пошло не так`,
     },
   },
 };
@@ -179,8 +181,6 @@ class LoginModal extends Component {
   };
 
   handleClickVariant = (variant, message) => () => {
-    console.log(variant, message);
-
     // variant could be success, error, warning, info, or default
     this.props.enqueueSnackbar(message, { variant });
   };
@@ -601,7 +601,13 @@ class LoginModal extends Component {
       login,
     } = this.state;
 
-    const { isModalshow, toogleModal, toogleSignUp, activeSignUp } = this.props;
+    const {
+      isModalshow,
+      toogleModal,
+      toogleSignUp,
+      activeSignUp,
+      serverResponse,
+    } = this.props;
 
     // Настройки конфити
     const config = {
@@ -656,7 +662,16 @@ class LoginModal extends Component {
                   className={styles.confetti}
                 />
                 {/* Разные уведомления */}
-                {/* <Notifications pop={this.handleClickVariant('info', `test`)} /> */}
+                {serverResponse.type ? (
+                  <Notifications
+                    pop={this.handleClickVariant(
+                      serverResponse.type,
+                      language[defaultLanguage].nitifications[
+                        serverResponse.message
+                      ],
+                    )}
+                  />
+                ) : null}
                 <Login
                   lang={language[defaultLanguage]}
                   isLoaderShowed={isLoaderShowed}
@@ -707,6 +722,7 @@ class LoginModal extends Component {
 const stateToProps = state => ({
   isModalshow: state.modalLogin.showModal,
   activeSignUp: state.modalLogin.activeSignUp,
+  serverResponse: state.modalLogin.serverResponse,
 });
 
 const dispatchToProp = dispatch => ({
@@ -732,6 +748,7 @@ LoginModal.propTypes = {
   activeSignUp: PropTypes.bool.isRequired,
   sendSignIn: PropTypes.func.isRequired,
   enqueueSnackbar: PropTypes.func.isRequired,
+  serverResponse: PropTypes.shape({}).isRequired,
 };
 
 export default connect(

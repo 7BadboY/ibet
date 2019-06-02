@@ -3,6 +3,8 @@ import {
   TOOGLE_LOGIN,
   SIGNUP_SUCCESS,
   SIGNIN_SUCCESS,
+  SIGNIN_ERROR,
+  CLEAR_NOTIFICATION,
 } from '../../utils/constants';
 
 const INITIALSTATE = {
@@ -10,6 +12,7 @@ const INITIALSTATE = {
   activeSignUp: true, // При открытии модалки показывает логин или регистрацию
   isSignUpSuccess: false,
   isSignInSuccess: false,
+  serverResponse: {},
 };
 
 const ModalLoginReducer = (state = INITIALSTATE, action) => {
@@ -33,6 +36,16 @@ const ModalLoginReducer = (state = INITIALSTATE, action) => {
       return {
         ...state,
         isSignInSuccess: !state.isSignInSuccess,
+      };
+    case SIGNIN_ERROR:
+      return {
+        ...state,
+        serverResponse: { type: `error`, message: `error` },
+      };
+    case CLEAR_NOTIFICATION:
+      return {
+        ...state,
+        serverResponse: {},
       };
     default:
       return state;
