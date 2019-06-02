@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const massNames = [
   'Else',
   'Lola',
@@ -6,7 +7,6 @@ const massNames = [
   'Orlando',
   'Sherril',
   'Marline',
-  'Bao',
   'Elnora',
   'Willy',
   'Shirl',
@@ -22,7 +22,6 @@ const massNames = [
   'Lillie',
   'Madelyn',
   'Takisha',
-  'Nga',
   'Taneka',
   'Forest',
   'Denisha',
@@ -54,7 +53,6 @@ const massNames = [
   'Annemarie',
   'Deandre',
   'Suzette',
-  'Joe',
   'Fannie',
   'Ailene',
   'Angelyn',
@@ -100,12 +98,18 @@ const massNames = [
   'Malka',
   'Staci',
 ];
+let prevUser;
 
 const randomOfMass = () => {
-  const massLength = massNames.length;
-  const random = Math.floor(Math.random() * massLength + 1);
-  const randomLogin = massNames[random];
-  return randomLogin;
+  let newMass = massNames.sort((a, b) => Math.random() - 0.5);
+  if (prevUser === newMass[0]) {
+    console.log(`Совпадение`);
+
+    newMass = massNames.sort((a, b) => Math.random() - 0.5);
+  }
+  const name = newMass[0];
+  prevUser = name;
+  return newMass[0];
 };
 
 export default randomOfMass;

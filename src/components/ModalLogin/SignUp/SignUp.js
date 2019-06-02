@@ -16,6 +16,7 @@ const SignUp = ({
   err,
   login,
   setRandomLogin,
+  isLoaderShowed,
 }) => {
   return (
     <div
@@ -25,23 +26,25 @@ const SignUp = ({
     >
       <form action="#" className={styles[`modal-form`]}>
         <h1 className={styles[`modal-h1`]}>{lang.text.signUpHeader}</h1>
-        <button
-          className={styles.randomUserBtn}
-          type="button"
-          onClick={setRandomLogin}
-        >
-          asd
-        </button>
-        <TextField
-          error={!!err.login}
-          id="login-input"
-          label={lang.text.login}
-          value={login}
-          onChange={onInputLogin}
-          margin="normal"
-          variant="outlined"
-          helperText={err.login}
-        />
+        <div className={styles[`loginInput-wrapper`]}>
+          <TextField
+            error={!!err.login}
+            id="login-input"
+            label={lang.text.login}
+            value={login}
+            onChange={onInputLogin}
+            margin="normal"
+            variant="outlined"
+            helperText={err.login}
+          />
+          <button
+            className={styles.randomUserBtn}
+            type="button"
+            onClick={setRandomLogin}
+          >
+            <i className="material-icons">casino</i>
+          </button>
+        </div>
         <TextField
           error={!!err.email}
           id="email-input"
@@ -67,6 +70,7 @@ const SignUp = ({
           {lang.text.signUpButton}
         </Button>
       </form>
+      {isLoaderShowed && <i className={styles.loader} />}
     </div>
   );
 };
@@ -84,4 +88,5 @@ SignUp.propTypes = {
   err: PropTypes.shape({}).isRequired,
   login: PropTypes.string.isRequired,
   setRandomLogin: PropTypes.func.isRequired,
+  isLoaderShowed: PropTypes.bool.isRequired,
 };

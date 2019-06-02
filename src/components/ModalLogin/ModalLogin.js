@@ -22,20 +22,23 @@ const INITIALSTATE = {
   password: ``,
   email: ``,
   errors: {
+    isLoginEmpty: true,
     isLoginRight: true,
     isLoginExist: false,
     isLoginLengsOk: true,
     IsLoginFirstDigit: false,
     isLoginInEng: true,
     isLoginLengthToMuch: false,
+    isPasswordEmpty: true,
     isPasswordRight: true,
     isPasswordOneWord: true,
     isPasswordLengsOk: true,
     isPasswordinEng: true,
     isPasswordLengthToMuch: false,
     isPasswordContainLogin: false,
-    isAllInputFilled: true,
+    isEmailEmpty: true,
     isEmailValid: true,
+    isAllInputFilled: false,
   },
   isLoaderShowed: false,
   isConfetti: false,
@@ -65,9 +68,11 @@ const language = {
         isPasswordinEng: `Password can only contain latin characters and digits`,
         isPasswordLengthToMuch: `Password can only contain 16 characters`,
         isPasswordContainLogin: `Password cant contain a login`,
+        isPasswordEmpty: `Password is Required`,
       },
       email: {
         isEmailValid: 'Email is not valid',
+        isEmailEmpty: `Email is Required`,
       },
       login: {
         isLoginExist: 'This login already exists',
@@ -75,6 +80,7 @@ const language = {
         IsLoginFirstDigit: `Login cant begin from a number`,
         isLoginInEng: `Login can only contain latin letters and digits`,
         isLoginLengthToMuch: `Login can only contain 10 characters`,
+        isLoginEmpty: `Login is Required`,
       },
       inputs: {
         isAllInputFilled: 'All fields must be filled',
@@ -82,6 +88,7 @@ const language = {
     },
     nitifications: {
       langSwitch: `Выбран русский язык`,
+      forgotPas: `Sorry about this ;(`,
     },
   },
   rus: {
@@ -107,9 +114,11 @@ const language = {
         isPasswordinEng: `Пароль может содержать только латинские буквы и цифры`,
         isPasswordLengthToMuch: `Пароль может содержать до 16 символов`,
         isPasswordContainLogin: `Пароль не должен содержать в себе логин`,
+        isPasswordEmpty: `Пароль обязательный`,
       },
       email: {
         isEmailValid: 'Это не почта',
+        isEmailEmpty: `Email Обязательный`,
       },
       login: {
         isLoginExist: 'Такой логин уже существует ',
@@ -117,6 +126,7 @@ const language = {
         IsLoginFirstDigit: `Логин не может начинаться с цифры`,
         isLoginInEng: `Логин может состоять только из латинских букв и цифр`,
         isLoginLengthToMuch: `Логин может содержать до 10 символов`,
+        isLoginEmpty: `Логин Обязательный`,
       },
       inputs: {
         isAllInputFilled: 'Все поля должны быт заполнены',
@@ -124,6 +134,7 @@ const language = {
     },
     nitifications: {
       langSwitch: `English language selected`,
+      forgotPas: `Сожалеем об этом ;(`,
     },
   },
 };
@@ -194,10 +205,25 @@ class LoginModal extends Component {
       this.toogleConfetti();
     }
 
+    // Если пароль пустой то выбиваем ошибку
+    if (login === ``) {
+      this.toogleIsEverythinkOk(`login`, `isLoginEmpty`);
+      if (errors.isLoginEmpty) {
+        this.toogleSomeError(`isLoginEmpty`);
+      }
+      return false;
+    }
+
+    // Убираем ошибку если она была показана
+    if (login !== ``) {
+      this.toogleIsEverythinkOk();
+      this.toogleSomeError(`isLoginEmpty`);
+    }
+
     // Проверяем логин на кириллицу
     // Если есть не латинские буквы или цифры то меняет стейт => Показывается <p> с ошибкой
-    if (!regLatin.test(login) && login !== ``) {
-      console.log(`Логин содержит кириллицу или спец символы`);
+    if (!regLatin.test(login)) {
+      // console.log(`Логин содержит кириллицу или спец символы`);
       this.toogleIsEverythinkOk(`login`, `isLoginInEng`);
       if (errors.isLoginInEng) {
         this.toogleSomeError(`isLoginInEng`);
@@ -208,7 +234,7 @@ class LoginModal extends Component {
     // Если логин только на латинице с цифрами
     // то убираем <p> если она была показа
     if (regLatin.test(login) && !errors.isLoginInEng) {
-      console.log(`Теперь логин не содержит кириллицу`);
+      // console.log(`Теперь логин не содержит кириллицу`);
       this.toogleIsEverythinkOk();
       this.toogleSomeError(`isLoginInEng`);
     }
@@ -216,7 +242,7 @@ class LoginModal extends Component {
     // Проверяем цифра ли первый символ
     // Если цифра то меняет стейт => Показывается <p> с ошибкой
     if (regFirstNum.test(login)) {
-      console.log(`Первый символ число`);
+      // console.log(`Первый символ число`);
       this.toogleIsEverythinkOk(`login`, `IsLoginFirstDigit`);
       if (!errors.IsLoginFirstDigit) {
         this.toogleSomeError(`IsLoginFirstDigit`);
@@ -227,7 +253,7 @@ class LoginModal extends Component {
     // Если логин не начинается с цифры
     // то убираем <p> если она была показа
     if (!regFirstNum.test(login) && errors.IsLoginFirstDigit) {
-      console.log(`Теперь логин не начинается с цифры`);
+      // console.log(`Теперь логин не начинается с цифры`);
       this.toogleSomeError(`IsLoginFirstDigit`);
       this.toogleIsEverythinkOk();
     }
@@ -235,7 +261,7 @@ class LoginModal extends Component {
     // Проверяем длину логина
     // Если меньше чем loginLengthMustBe то меняет стейт => Показывается <p> с ошибкой
     if (loginLength < loginLengthMustBe) {
-      console.log('Логин Короче нужной длины');
+      // console.log('Логин Короче нужной длины');
       this.toogleIsEverythinkOk(`login`, `isLoginLengsOk`);
       if (errors.isLoginLengsOk) {
         this.toogleSomeError(`isLoginLengsOk`);
@@ -246,7 +272,7 @@ class LoginModal extends Component {
     // Если логин равен или больше стейта loginLengthMustBe,
     // то убираем <p> если она была показа
     if (loginLength > loginLengthMustBe && !errors.isLoginLengsOk) {
-      console.log('Логин Нормальной длины');
+      // console.log('Логин Нормальной длины');
       this.toogleSomeError(`isLoginLengsOk`);
       this.toogleIsEverythinkOk();
     }
@@ -254,7 +280,7 @@ class LoginModal extends Component {
     // Проверяем длину логина
     // Если больше чем loginMaxLength то меняет стейт => Показывается <p> с ошибкой
     if (loginLength > loginMaxLength) {
-      console.log('Логин длинее нужной длины');
+      // console.log('Логин длинее нужной длины');
       this.toogleIsEverythinkOk(`login`, `isLoginLengthToMuch`);
       if (!errors.isLoginLengthToMuch) {
         this.toogleSomeError(`isLoginLengthToMuch`);
@@ -265,7 +291,7 @@ class LoginModal extends Component {
     // Если логин меньше или равен стейта loginMaxLength,
     // то убираем <p> если она была показа
     if (loginLength <= loginMaxLength && errors.isLoginLengthToMuch) {
-      console.log('Логин Нормальной длины');
+      // console.log('Логин Нормальной длины');
       this.toogleSomeError(`isLoginLengthToMuch`);
       this.toogleIsEverythinkOk();
     }
@@ -285,10 +311,25 @@ class LoginModal extends Component {
     const regLatin = new RegExp('^[a-zA-Z0-9]+$'); // Только анг и цифры
     const regLogin = new RegExp(login); // найти логин
 
+    // Если пароль пустой то выбиваем ошибку
+    if (password === ``) {
+      this.toogleIsEverythinkOk(`password`, `isPasswordEmpty`);
+      if (errors.isPasswordEmpty) {
+        this.toogleSomeError(`isPasswordEmpty`);
+      }
+      return false;
+    }
+
+    // Убираем ошибку если она была показана
+    if (password !== ``) {
+      this.toogleIsEverythinkOk();
+      this.toogleSomeError(`isPasswordEmpty`);
+    }
+
     // Проверяем пароль на кириллицу
     // Если есть не латинские буквы или цифры то меняет стейт => Показывается <p> с ошибкой
-    if (!regLatin.test(password) && password !== ``) {
-      console.log(`Пароль содержит кириллицу или спец символы`);
+    if (!regLatin.test(password)) {
+      // console.log(`Пароль содержит кириллицу или спец символы`);
       this.toogleIsEverythinkOk(`password`, `isPasswordinEng`);
       if (errors.isPasswordinEng) {
         this.toogleSomeError(`isPasswordinEng`);
@@ -299,7 +340,7 @@ class LoginModal extends Component {
     // Если Пароль только на латинице с цифрами
     // то убираем <p> если она была показа
     if (regLatin.test(password) && !errors.isPasswordinEng) {
-      console.log(`Теперь Пароль не содержит кириллицу`);
+      // console.log(`Теперь Пароль не содержит кириллицу`);
       this.toogleIsEverythinkOk();
       this.toogleSomeError(`isPasswordinEng`);
     }
@@ -307,7 +348,7 @@ class LoginModal extends Component {
     // Проверяем длину Пароля
     // Если меньше чем passwordLengthMustBe то меняет стейт => Показывается <p> с ошибкой
     if (passLength < passwordLengthMustBe) {
-      console.log('Пароль короче нужной длины');
+      // console.log('Пароль короче нужной длины');
       this.toogleIsEverythinkOk(`password`, `isPasswordLengsOk`);
       if (errors.isPasswordLengsOk) {
         this.toogleSomeError(`isPasswordLengsOk`);
@@ -318,7 +359,7 @@ class LoginModal extends Component {
     // Если пароль равен или больше стейта passwordLengthMustBe,
     // то убираем <p> если она была показа
     if (passLength >= passwordLengthMustBe && !errors.isPasswordLengsOk) {
-      console.log('Пароль Нормальной длины');
+      // console.log('Пароль Нормальной длины');
       this.toogleSomeError(`isPasswordLengsOk`);
       this.toogleIsEverythinkOk();
     }
@@ -326,7 +367,7 @@ class LoginModal extends Component {
     // Проверяем длину Пароля
     // Если больше чем passwordMaxLength то меняет стейт => Показывается <p> с ошибкой
     if (passLength > passwordMaxLength) {
-      console.log('Пароль длинее нужной длины');
+      // console.log('Пароль длинее нужной длины');
       this.toogleIsEverythinkOk(`password`, `isPasswordLengthToMuch`);
       if (errors.isPasswordLengthToMuch) {
         this.toogleSomeError(`isPasswordLengthToMuch`);
@@ -337,7 +378,7 @@ class LoginModal extends Component {
     // Если пароль равен или меньше стейта passwordMaxLength,
     // то убираем <p> если она была показа
     if (passLength >= passwordMaxLength && !errors.isPasswordLengthToMuch) {
-      console.log('Пароль Нормальной длины');
+      // console.log('Пароль Нормальной длины');
       this.toogleSomeError(`isPasswordLengthToMuch`);
       this.toogleIsEverythinkOk();
     }
@@ -345,7 +386,7 @@ class LoginModal extends Component {
     // Проверяем содержит ли пароль в себе логин
     // Если больше чем passwordMaxLength то меняет стейт => Показывается <p> с ошибкой
     if (regLogin.test(password) && login !== ``) {
-      console.log('Пароль такой же как и логин');
+      // console.log('Пароль такой же как и логин');
       this.toogleIsEverythinkOk(`password`, `isPasswordContainLogin`);
       if (errors.isPasswordContainLogin) {
         this.toogleSomeError(`isPasswordContainLogin`);
@@ -356,7 +397,7 @@ class LoginModal extends Component {
     // Если пароль не содержит логин
     // то убираем <p> если она была показа
     if (!regLogin.test(password) && !errors.isPasswordContainLogin) {
-      console.log('Пароль больше не такой же как и логин');
+      // console.log('Пароль больше не такой же как и логин');
       this.toogleSomeError(`isPasswordContainLogin`);
       this.toogleIsEverythinkOk();
     }
@@ -367,6 +408,21 @@ class LoginModal extends Component {
   validateEmailInput = () => {
     const { email, errors } = this.state;
 
+    // Если емейл пустой то выбиваем ошибку
+    if (email === ``) {
+      this.toogleIsEverythinkOk(`email`, `isEmailEmpty`);
+      if (errors.isEmailEmpty) {
+        this.toogleSomeError(`isEmailEmpty`);
+      }
+      return false;
+    }
+
+    // Убираем ошибку если она была показана
+    if (email !== ``) {
+      this.toogleIsEverythinkOk();
+      this.toogleSomeError(`isEmailEmpty`);
+    }
+
     // Делаем валидацию Емейл
     // Если не валид то меняет стейт => Показывается <p> с ошибкой
     const validateEmail = m => {
@@ -375,7 +431,7 @@ class LoginModal extends Component {
     };
 
     if (!validateEmail(email)) {
-      console.log(`Это не емейл`);
+      // console.log(`Это не емейл`);
       this.toogleIsEverythinkOk(`email`, `isEmailValid`);
       if (errors.isEmailValid) {
         this.toogleSomeError(`isEmailValid`);
@@ -385,7 +441,7 @@ class LoginModal extends Component {
 
     // Если с емейлом все ок то убираем <p> если она была показана
     if (validateEmail(email) && errors.isEmailValid === false) {
-      console.log('С емейлом теперь все ок');
+      // console.log('С емейлом теперь все ок');
       this.toogleSomeError(`isEmailValid`);
       this.toogleIsEverythinkOk();
     }
@@ -446,24 +502,6 @@ class LoginModal extends Component {
     }));
   };
 
-  toogleIsPasswordRight = () => {
-    this.setState(state => ({
-      errors: {
-        ...state.errors,
-        isPasswordRight: !state.errors.isPasswordRight,
-      },
-    }));
-  };
-
-  toogleIsLoginExist = () => {
-    this.setState(state => ({
-      errors: {
-        ...state.errors,
-        isLoginExist: !state.errors.isLoginExist,
-      },
-    }));
-  };
-
   toogleIsLoaderShowed = () => {
     this.setState(state => ({
       isLoaderShowed: !state.isLoaderShowed,
@@ -490,67 +528,40 @@ class LoginModal extends Component {
   };
 
   signIn = () => {
-    const { email, password, rightPassword, errors, err } = this.state;
+    const { email, password } = this.state;
     const { sendSignIn } = this.props;
 
-    // Проверяем не пустые ли инпуты
-    if (email === `` || password === ``) {
-      if (errors.isAllInputFilled === true) {
-        this.toogleIsAllInputFilled();
-      }
+    // Проверяем инпуты
+    if (!this.validateEmailInput() || !this.validatePasswordInput()) {
       return;
     }
-
     this.toogleIsLoaderShowed();
+
     const user = {
       email,
       password,
     };
-    console.log(user);
 
-    sendSignIn(user);
+    console.log(user);
 
     setTimeout(() => {
       this.toogleIsLoaderShowed();
-      if (rightPassword !== user.password) {
-        if (!err.password || err.password !== `isPasswordRight`) {
-          this.toogleIsEverythinkOk(`password`, `isPasswordRight`);
-        }
-        if (errors.isPasswordRight === true) {
-          this.toogleIsPasswordRight();
-          return;
-        }
-        return;
-      }
-
-      // Если пароль правильный то убираем <p> если она была показа
-      if (errors.isPasswordRight === false && rightPassword === user.password) {
-        this.toogleIsPasswordRight();
-        if (err.password) {
-          this.toogleIsEverythinkOk();
-        }
-      }
-    }, 1000);
+      sendSignIn(user);
+    }, 1500);
   };
 
   signUp = () => {
-    const { email, password, login, errors } = this.state;
+    const { email, password, login } = this.state;
 
     const { sendSignup } = this.props;
 
-    if (email === `` && password === `` && login === ``) {
-      if (errors.isAllInputFilled === true) {
-        this.toogleIsAllInputFilled();
-      }
-      return;
-    }
+    // Проверяем инпуты
     if (
-      email !== `` &&
-      password !== `` &&
-      login !== `` &&
-      errors.isAllInputFilled === false
+      !this.validateLoginInput() ||
+      !this.validateEmailInput() ||
+      !this.validatePasswordInput()
     ) {
-      this.toogleIsAllInputFilled();
+      return;
     }
 
     const newUser = {
@@ -558,10 +569,12 @@ class LoginModal extends Component {
       password,
       userName: login,
     };
+    this.toogleIsLoaderShowed();
 
-    sendSignup(newUser);
-
-    console.log(newUser);
+    setTimeout(() => {
+      this.toogleIsLoaderShowed();
+      sendSignup(newUser);
+    }, 1400);
   };
 
   render() {
@@ -637,7 +650,7 @@ class LoginModal extends Component {
                   err={err}
                   forgetPasFunc={this.handleClickVariant(
                     `warning`,
-                    `Sorry about this ;(`,
+                    language[defaultLanguage].nitifications.forgotPas,
                   )}
                 />
                 <SignUp
@@ -652,6 +665,7 @@ class LoginModal extends Component {
                   err={err}
                   login={login}
                   setRandomLogin={this.setRandomLogin}
+                  isLoaderShowed={isLoaderShowed}
                 />
                 <Overlay
                   lang={language[defaultLanguage]}

@@ -7,7 +7,7 @@ import {
 
 const INITIALSTATE = {
   showModal: false,
-  activeSignUp: false,
+  activeSignUp: true, // При открытии модалки показывает логин или регистрацию
   isSignUpSuccess: false,
   isSignInSuccess: false,
 };
