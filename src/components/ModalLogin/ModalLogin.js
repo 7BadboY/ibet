@@ -4,14 +4,11 @@ import { connect } from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import { CSSTransition } from 'react-transition-group';
 import Confetti from 'react-dom-confetti';
-import { setTimeout } from 'timers';
-import { SnackbarProvider } from 'notistack';
 import styles from './ModalLogin.module.css';
 import transition from './transition.module.css';
 import Overlay from './Overlay/Overlay';
 import Login from './Login/login';
 import SignUp from './SignUp/SignUp';
-import CustomizedSnackbars from './CustomizedSnackbars/CustomizedSnackbars';
 import {
   toogleModalLogin,
   asyncSignup,
@@ -82,6 +79,9 @@ const language = {
         isAllInputFilled: 'All fields must be filled',
       },
     },
+    nitifications: {
+      langSwitch: `Выбран русский язык`,
+    },
   },
   rus: {
     text: {
@@ -121,6 +121,9 @@ const language = {
         isAllInputFilled: 'Все поля должны быт заполнены',
       },
     },
+    nitifications: {
+      langSwitch: `English language selected`,
+    },
   },
 };
 
@@ -138,7 +141,6 @@ class LoginModal extends Component {
     loginMaxLength: 10,
     defaultLanguage: `eng`,
     isEng: true,
-    isShowedForgetPassword: false,
     err: {},
   };
 
@@ -159,6 +161,11 @@ class LoginModal extends Component {
     if (e.target === modal) {
       toogleModal();
     }
+  };
+
+  handleClickVariant = (variant, message) => () => {
+    // variant could be success, error, warning, info, or default
+    this.props.enqueueSnackbar(message, { variant });
   };
 
   toogleForgetPas = () => {
@@ -559,7 +566,6 @@ class LoginModal extends Component {
       isConfetti,
       defaultLanguage,
       isEng,
-      isShowedForgetPassword,
     } = this.state;
     const { isModalshow, toogleModal, toogleSignUp, activeSignUp } = this.props;
 
@@ -593,12 +599,6 @@ class LoginModal extends Component {
       >
         {() => (
           <>
-            <CustomizedSnackbars
-              bool={isShowedForgetPassword}
-              toogleFunc={this.toogleForgetPas}
-              variant="error"
-              message="Sorry About that  ;("
-            />
             <div className={styles.wrapper} id="wrapper">
               <div className={containerStyles.join(` `)}>
                 {/* Крестик для закрытия модалки */}
@@ -626,7 +626,10 @@ class LoginModal extends Component {
                   email={email}
                   password={password}
                   err={err}
-                  forgetPasFunc={this.toogleForgetPas}
+                  forgetPasFunc={this.handleClickVariant(
+                    `warning`,
+                    `Sorry about this ;(`,
+                  )}
                 />
                 <SignUp
                   lang={language[defaultLanguage]}
@@ -644,6 +647,10 @@ class LoginModal extends Component {
                   toogleLogin={toogleSignUp}
                   toogleLang={this.toogleLang}
                   isEng={isEng}
+                  langChangeInfo={this.handleClickVariant(
+                    'info',
+                    language[defaultLanguage].nitifications.langSwitch,
+                  )}
                 />
               </div>
             </div>
@@ -681,6 +688,7 @@ LoginModal.propTypes = {
   sendSignup: PropTypes.func.isRequired,
   activeSignUp: PropTypes.bool.isRequired,
   sendSignIn: PropTypes.func.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
 };
 
 export default connect(

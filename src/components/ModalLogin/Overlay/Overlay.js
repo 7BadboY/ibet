@@ -5,10 +5,14 @@ import Button from '@material-ui/core/Button';
 import styles from '../ModalLogin.module.css';
 import LanguageSwitch from '../LanguageSwitch/LaguageSwitch';
 
-const Overlay = ({ toogleLogin, toogleLang, lang, isEng }) => {
+const Overlay = ({ toogleLogin, toogleLang, lang, isEng, langChangeInfo }) => {
   return (
     <div className={styles[`overlay-container`]}>
-      <LanguageSwitch toogleLang={toogleLang} isEng={isEng} />
+      <LanguageSwitch
+        toogleLang={toogleLang}
+        isEng={isEng}
+        langChangeInfo={langChangeInfo}
+      />
       <div className={styles.overlay}>
         <div
           className={[styles[`overlay-panel`], styles[`overlay-left`]].join(
@@ -52,6 +56,7 @@ Overlay.propTypes = {
   toogleLang: PropTypes.func.isRequired,
   lang: PropTypes.shape({}).isRequired,
   isEng: PropTypes.bool.isRequired,
+  langChangeInfo: PropTypes.func.isRequired,
 };
 
 export default Overlay;

@@ -53,13 +53,7 @@ const SignUp = ({
           value={password}
           helperText={err.password}
         />
-        <Button
-          color="secondary"
-          // className={[classes.button, styles.ghost].join(` `)}
-          id="signUp"
-          onClick={signUp}
-          size="large"
-        >
+        <Button color="secondary" id="signUp" onClick={signUp} size="large">
           {lang.text.signUpButton}
         </Button>
       </form>

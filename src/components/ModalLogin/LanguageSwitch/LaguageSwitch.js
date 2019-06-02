@@ -42,14 +42,18 @@ const AntSwitch = withStyles(theme => ({
   checked: {},
 }))(Switch);
 
-const CustomizedSwitches = ({ toogleLang, isEng }) => {
+const CustomizedSwitches = ({ toogleLang, isEng, langChangeInfo }) => {
+  const changeLang = () => {
+    toogleLang();
+    langChangeInfo();
+  };
   return (
     <FormGroup className={styles.langSwitch}>
       <Typography component="div">
         <Grid component="label" container alignItems="center" spacing={1}>
           <Grid item>Rus</Grid>
           <Grid item>
-            <AntSwitch checked={isEng} onChange={toogleLang} value="checkedC" />
+            <AntSwitch checked={isEng} onChange={changeLang} value="checkedC" />
           </Grid>
           <Grid item>Eng</Grid>
         </Grid>
@@ -61,5 +65,6 @@ const CustomizedSwitches = ({ toogleLang, isEng }) => {
 CustomizedSwitches.propTypes = {
   toogleLang: PropTypes.func.isRequired,
   isEng: PropTypes.bool.isRequired,
+  langChangeInfo: PropTypes.func.isRequired,
 };
 export default CustomizedSwitches;
