@@ -662,7 +662,7 @@ class LoginModal extends Component {
                   className={styles.confetti}
                 />
                 {/* Разные уведомления */}
-                {serverResponse.type ? (
+                {serverResponse.type && (
                   <Notifications
                     pop={this.handleClickVariant(
                       serverResponse.type,
@@ -671,7 +671,7 @@ class LoginModal extends Component {
                       ],
                     )}
                   />
-                ) : null}
+                )}
                 <Login
                   lang={language[defaultLanguage]}
                   isLoaderShowed={isLoaderShowed}
