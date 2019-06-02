@@ -9,6 +9,7 @@ import transition from './transition.module.css';
 import Overlay from './Overlay/Overlay';
 import Login from './Login/login';
 import SignUp from './SignUp/SignUp';
+import Notifications from './Notifications/Notifications';
 import randomUserName from '../../utils/ModalLogin/randomLogin';
 import {
   toogleModalLogin,
@@ -140,11 +141,6 @@ const language = {
 };
 
 class LoginModal extends Component {
-  constructor() {
-    super();
-    this.closeModal = this.closeModal;
-  }
-
   state = {
     ...INITIALSTATE,
     passwordLengthMustBe: 8,
@@ -183,6 +179,8 @@ class LoginModal extends Component {
   };
 
   handleClickVariant = (variant, message) => () => {
+    console.log(variant, message);
+
     // variant could be success, error, warning, info, or default
     this.props.enqueueSnackbar(message, { variant });
   };
@@ -509,7 +507,7 @@ class LoginModal extends Component {
   };
 
   toogleLang = () => {
-    const { defaultLanguage } = this.state;
+    const { defaultLanguage, login, password, email } = this.state;
     if (defaultLanguage === `eng`) {
       this.setState(state => ({
         defaultLanguage: `rus`,
@@ -522,9 +520,22 @@ class LoginModal extends Component {
         isEng: !state.isEng,
       }));
     }
-    setTimeout(() => {
-      this.validateLoginInput();
-    }, 10);
+
+    if (login !== ``) {
+      setTimeout(() => {
+        this.validateLoginInput();
+      }, 10);
+    }
+    if (email !== ``) {
+      setTimeout(() => {
+        this.validateEmailInput();
+      }, 10);
+    }
+    if (password !== ``) {
+      setTimeout(() => {
+        this.validatePasswordInput();
+      }, 10);
+    }
   };
 
   signIn = () => {
@@ -589,8 +600,10 @@ class LoginModal extends Component {
       isEng,
       login,
     } = this.state;
+
     const { isModalshow, toogleModal, toogleSignUp, activeSignUp } = this.props;
 
+    // Настройки конфити
     const config = {
       angle: '90',
       spread: '176',
@@ -604,8 +617,11 @@ class LoginModal extends Component {
       colors: ['#000', '#f00'],
     };
 
+    // Классы для модалки
     let containerStyles = [styles.container];
 
+    // Добавляем или убираем класс
+    // От этого зависит начальная позиция модалки и сама анимация смены окна
     if (!activeSignUp) {
       containerStyles = [...containerStyles, styles[`right-panel-active`]];
     } else if (activeSignUp) {
@@ -639,6 +655,8 @@ class LoginModal extends Component {
                   config={config}
                   className={styles.confetti}
                 />
+                {/* Разные уведомления */}
+                {/* <Notifications pop={this.handleClickVariant('info', `test`)} /> */}
                 <Login
                   lang={language[defaultLanguage]}
                   isLoaderShowed={isLoaderShowed}
