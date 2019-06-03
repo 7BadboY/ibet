@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Fab from '@material-ui/core/Fab';
 import { CSSTransition } from 'react-transition-group';
 import Confetti from 'react-dom-confetti';
+import { SnackbarProvider, withSnackbar } from 'notistack';
 import styles from './ModalLogin.module.css';
 import transition from './transition.module.css';
 import Overlay from './Overlay/Overlay';
@@ -90,7 +91,14 @@ const language = {
     nitifications: {
       langSwitch: `Выбран русский язык`,
       forgotPas: `Sorry about this ;(`,
-      error: `Something went wrong`,
+      serverError: `Something went wrong`,
+      signInError: `Email or password is invalid`,
+      signInSuccess: `Nice to see you here`,
+      signInInvalidPas: `Password is invalid`,
+      signInInvalidUser: `User is not defind`,
+      signUpSuccess: `You successfully signed up`,
+      signUpErrorEmail: `Email already exist`,
+      signUpErrorLogin: `Login already exist`,
     },
   },
   rus: {
@@ -137,7 +145,14 @@ const language = {
     nitifications: {
       langSwitch: `English language selected`,
       forgotPas: `Сожалеем об этом ;(`,
-      error: `Что то пошло не так`,
+      serverError: `Что то пошло не так`,
+      signInError: `Не правильный емейл или пароль`,
+      signInSuccess: `Рады видеть вас`,
+      signInInvalidPas: `Не Правильный пароль`,
+      signInInvalidUser: `Такого пользователя не существует`,
+      signUpSuccess: `Вы успешно зарегестрированы`,
+      signUpErrorEmail: `Емейл уже существует`,
+      signUpErrorLogin: `Логин уже существует`,
     },
   },
 };
@@ -751,7 +766,19 @@ LoginModal.propTypes = {
   serverResponse: PropTypes.shape({}).isRequired,
 };
 
-export default connect(
-  stateToProps,
-  dispatchToProp,
-)(LoginModal);
+const LoginModalSnack = withSnackbar(
+  connect(
+    stateToProps,
+    dispatchToProp,
+  )(LoginModal),
+);
+
+function IntegrationNotistack() {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <LoginModalSnack />
+    </SnackbarProvider>
+  );
+}
+
+export default IntegrationNotistack;
