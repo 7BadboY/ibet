@@ -12,7 +12,7 @@ import { refreshCurrentUser } from './components/ModalLogin/sessionActions';
 class App extends Component {
   componentDidMount() {
     const { getCurrentUser } = this.props;
-    console.log('App');
+    // console.log('App');
     getCurrentUser();
   }
 

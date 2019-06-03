@@ -55,7 +55,7 @@ export const asyncSignin = userData => dispatch => {
   })
     .then(response => response.json())
     .then(data => {
-      console.log(`response data`, data);
+      // console.log(`response data`, data);
       if (data.error) {
         dispatch(signInResponse(data));
         dispatch(clearNotification());
@@ -66,11 +66,10 @@ export const asyncSignin = userData => dispatch => {
         dispatch(authSucces({ token: data.token, user: data.user }));
         dispatch(toogleModalLogin());
       }
-      console.log(`data.token to localStorage`, data);
+      // console.log(`data.token to localStorage`, data);
     })
     .catch(err => {
-      console.log(err);
-      dispatch(serverError());
+      dispatch(serverError(err));
       dispatch(clearNotification());
     });
 };
@@ -84,7 +83,7 @@ export const asyncSignup = userData => dispatch => {
     .then(response => response.json())
     .then(data => {
       if (data.error) {
-        console.log(data);
+        // console.log(data);
         dispatch(signUpResponse(data));
         dispatch(clearNotification());
         // throw new Error(data.error);
@@ -92,12 +91,11 @@ export const asyncSignup = userData => dispatch => {
         dispatch(signUpResponse(data));
         dispatch(clearNotification());
         dispatch(asyncSignin(userData));
-        console.log(data);
+        // console.log(data);
       }
     })
     .catch(err => {
-      console.log(err);
-      dispatch(serverError());
+      dispatch(serverError(err));
       dispatch(clearNotification());
     });
 };
