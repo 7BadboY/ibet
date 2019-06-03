@@ -14,7 +14,7 @@ export const logOut = () => {
 
 export const refreshCurrentUser = () => (dispatch, getState) => {
   const { token } = getState().session;
-  console.log(token);
+  // console.log(token);
   if (!token) return;
 
   fetch('http://localhost:8080/api/auth/current', {
@@ -26,7 +26,7 @@ export const refreshCurrentUser = () => (dispatch, getState) => {
   })
     .then(response => {
       response.json().then(data => {
-        console.log(`Response from token`, data);
+        // console.log(`Response from token`, data);
         dispatch(authSucces({ user: data.user }));
       });
     })

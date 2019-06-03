@@ -170,17 +170,17 @@ class LoginModal extends Component {
   };
 
   componentDidMount = () => {
-    console.log(`ComponentDidMount`);
+    // console.log(`ComponentDidMount`);
     window.addEventListener(`click`, this.closeModal);
   };
 
   componentWillUnmount = () => {
-    console.log(`ComponentWillUnmount`);
+    // console.log(`ComponentWillUnmount`);
     window.removeEventListener(`click`, this.closeModal);
   };
 
   closeModal = e => {
-    console.log(`Лисенер РАБОТАЕТ;(`);
+    // console.log(`Лисенер РАБОТАЕТ;(`);
     const modal = document.getElementById(`wrapper`);
     const { toogleModal } = this.props;
     if (e.target === modal) {
@@ -568,7 +568,7 @@ class LoginModal extends Component {
       password,
     };
 
-    console.log(user);
+    // console.log(user);
 
     setTimeout(() => {
       this.toogleIsLoaderShowed();
