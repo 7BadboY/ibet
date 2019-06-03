@@ -1,0 +1,63 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  position: relative;
+  padding: 16px;
+  max-width: 800px;
+  width: 100%;
+  min-height: 200px;
+  background-color: #fff;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+.modalBtn {
+  margin-left: 100px;
+}
+
+.modalPoints {
+  width: 70px;
+}
+
+.modalStartPariDate {
+  width: 190px;
+}
+
+.modalPublicDate {
+  width: 150px;
+}
+
+.closeBtn:hover {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.test {
+  margin-bottom: 50px;
+}
+
+.modal input[type='number']::-webkit-inner-spin-button,
+.modal input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.modal input[type='number'] {
+  -moz-appearance: textfield;
+}
