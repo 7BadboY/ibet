@@ -1,0 +1,9 @@
+.header {
+  background: teal
+    url(http://fonday.ru/images/tmp/12/5/original/12571xBztWCbFAmfvqpchXGEJNy.jpg);
+  background-blend-mode: screen;
+  padding: 30px;
+  font-size: 20px;
+  margin: auto;
+  background-size: cover;
+}

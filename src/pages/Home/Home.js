@@ -1,9 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
+import classes from './Home.module.css';
+import Earth from '../../img/Earth1.jpg';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -14,12 +16,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Home(props) {
+function Home() {
   const materialClasses = useStyles();
 
   return (
     <div>
       <form
+        className={classes.wrapper}
         onSubmit={e => {
           e.preventDefault();
           alert('submit');
@@ -27,21 +30,49 @@ function Home(props) {
         noValidate
         autoComplete="off"
       >
-        <TextField
+        {/* <nav className={classes.buttons}>
+          <Button>Register</Button>
+          <Button
+            onClick={() => alert('click')}
+            className={materialClasses.button}
+            type="submit"
+          >
+            login
+          </Button>
+          <Button>Active Games</Button>
+          <Button>Contact Us</Button>
+          <Button>Log Out</Button>
+        </nav> */}
+        <span className={classes.title}>Hello dear friend!</span>
+        <p className={classes.description}>
+          With our site you can argue with any person from anywhere in the
+          world!
+        </p>
+
+        <p>
+          <img className={classes.earth} src={Earth} alt="earth" />
+        </p>
+
+        <Button className={classes.deal}>
+          <span className={classes.click}>Click here</span> to make deal and
+          earn real money
+        </Button>
+        {/* <TextField
           id="outlined-name"
-          label="Name"
+          label="Username"
           className={materialClasses.input}
           onChange={e => console.log(e.target.value)}
           margin="normal"
           variant="outlined"
         />
-        <Button
-          onClick={() => alert('click')}
-          className={materialClasses.button}
-          type="submit"
-        >
-          submit
-        </Button>
+        <TextField
+          id="outlined-name"
+          label="Password"
+          className={materialClasses.input}
+          onChange={e => console.log(e.target.value)}
+          margin="normal"
+          variant="outlined"
+        /> */}
       </form>
     </div>
   );
