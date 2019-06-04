@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import CustomTable from '../../components/CustomTable/CustomTable';
 
-function ActiveGames(props) {
+function ActiveGames() {
   return (
     <div>
       <h2>ActiveGames</h2>
