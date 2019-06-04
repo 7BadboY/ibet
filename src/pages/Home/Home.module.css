@@ -17,8 +17,8 @@
 
 .title {
   text-align: center;
+  display: block;
   flex-flow: row;
-  margin-top: 10px;
   line-height: 1.75;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   font-weight: 500;
@@ -53,10 +53,6 @@
 }
 
 .deal {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column wrap; */
   margin-top: 250px;
   line-height: 1.75;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
@@ -65,7 +61,8 @@
   letter-spacing: 0.02857em;
   text-transform: uppercase;
   position: absolute !important;
-  right: 352px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .slogan {
