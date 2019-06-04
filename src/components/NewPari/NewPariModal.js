@@ -29,28 +29,48 @@ class NewPariModal extends Component {
 
   closeModal = () => this.setState({ isModalOpen: false });
 
-  // handleCategoryChange = e => {
-  //   this.setState({ category: e.target.value });
-  // };
-
-  // handlePointChange = e => {
-  //   this.setState({
-  //     pointValue: e.target.value,
-  //   });
-  // };
-
   handleOnSubmit = e => {
     e.preventDefault();
 
-    // if ()
+    if (Number(this.state.rate) > 10 || Number(this.state.rate) < 1)
+      return alert('Enter number from 1 to 10');
+    if (!Number.isInteger(Number(this.state.rate)))
+      return alert('Enter integer');
 
-    console.log(this.state);
+    fetch('http://localhost:8080/api/bets', {
+      method: 'POST',
+      body: JSON.stringify({
+        userID: uuidv4(),
+        userName: 'Bro',
+        points: Number(this.state.pointValue),
+        type: this.state.category,
+        betValue: Number(this.state.rate),
+        exitDate: this.state.publicationBet,
+        creatingDate: this.state.startBet,
+      }),
+      headers: {
+        'content-type': 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEzMTMxMzEzIiwiaWQiOiI1Y2VmYTNmNGRjNWFhNzI0OTg3N2NlNmMiLCJpYXQiOjE1NTkyMTYyODcsImV4cCI6MTU1OTMwMjY4N30.bs_Eq86Fh57tW2YpSciwV-MoP6snlUJJbw8eKyK1yIE',
+      },
+    })
+      .then(response => {
+        response.json().then(data => {
+          console.log(data);
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   handleNewBetChange = e => {
     const { name, value } = e.target;
     this.setState({
-      [name]: value,
+      [name]:
+        name === 'startBet' || name === 'publicationBet'
+          ? Date.parse(new Date(value))
+          : value,
     });
   };
 
