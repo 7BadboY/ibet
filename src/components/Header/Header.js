@@ -8,11 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import Clock from 'react-live-clock';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
-import { logOut } from '../ModalLogin/sessionActions';
 import { toogleModalLogin } from '../ModalLogin/ModalLoginActions';
 import classes from './Header.module.css';
 
-function Header({ toogleModal, isAuthenticated, onlogOut }) {
+function Header({ toogleModal, isAuthenticated }) {
   return (
     <header className={classes.header}>
       <nav className={classes.navigation__top}>
@@ -99,9 +98,6 @@ const dispatchToProp = dispatch => ({
   toogleModal() {
     dispatch(toogleModalLogin());
   },
-  onlogOut() {
-    dispatch(logOut());
-  },
 });
 
 Header.propTypes = {};
@@ -114,5 +110,4 @@ export default connect(
 Header.propTypes = {
   toogleModal: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  onlogOut: PropTypes.func.isRequired,
 };
