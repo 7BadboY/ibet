@@ -8,11 +8,11 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import uuidv4 from 'uuid/v4';
-import NewPari from './NewPari';
+import NewBet from './NewBet';
 import CategorySelector from './CategorySelector';
-import styles from './NewPari.module.css';
+import styles from './NewBet.module.css';
 
-class NewPariModal extends Component {
+class NewBetModal extends Component {
   state = {
     isModalOpen: false,
     category: '',
@@ -36,6 +36,11 @@ class NewPariModal extends Component {
       return alert('Enter number from 1 to 10');
     if (!Number.isInteger(Number(this.state.rate)))
       return alert('Enter integer');
+    if (
+      Date.parse(new Date(this.state.publicationBet)) >
+      Date.parse(new Date(this.state.startBet))
+    )
+      return alert('Enter valid date');
 
     fetch('http://localhost:8080/api/bets', {
       method: 'POST',
@@ -45,8 +50,8 @@ class NewPariModal extends Component {
         points: Number(this.state.pointValue),
         type: this.state.category,
         betValue: Number(this.state.rate),
-        exitDate: this.state.publicationBet,
-        creatingDate: this.state.startBet,
+        exitDate: Date.parse(new Date(this.state.publicationBet)),
+        creatingDate: Date.parse(new Date(this.state.startBet)),
       }),
       headers: {
         'content-type': 'application/json',
@@ -67,10 +72,7 @@ class NewPariModal extends Component {
   handleNewBetChange = e => {
     const { name, value } = e.target;
     this.setState({
-      [name]:
-        name === 'startBet' || name === 'publicationBet'
-          ? Date.parse(new Date(value))
-          : value,
+      [name]: value,
     });
   };
 
@@ -91,7 +93,7 @@ class NewPariModal extends Component {
         </Button>
 
         {isModalOpen && (
-          <NewPari onClose={this.closeModal}>
+          <NewBet onClose={this.closeModal}>
             <form onSubmit={this.handleOnSubmit}>
               <Table>
                 <TableHead>
@@ -164,7 +166,7 @@ class NewPariModal extends Component {
                 Создать
               </Button>
             </form>
-          </NewPari>
+          </NewBet>
         )}
       </div>
     );
@@ -175,4 +177,4 @@ const mapStateToProps = state => ({
   active: state.active,
 });
 
-export default connect(mapStateToProps)(NewPariModal);
+export default connect(mapStateToProps)(NewBetModal);
