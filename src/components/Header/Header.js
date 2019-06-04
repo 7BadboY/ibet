@@ -60,7 +60,7 @@ function Header({ toogleModal, isAuthenticated }) {
             <NavLink className={classes.navInfo} to="/about">
               About
             </NavLink>
-            <NavLink className={classes.navInfo} exact to="/">
+            <NavLink className={classes.navInfo} exact to="/contactus">
               Contact us
             </NavLink>
           </div>
