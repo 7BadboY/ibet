@@ -2,6 +2,16 @@
   border: 1px solid red;
 } */
 
+.header {
+  background: teal
+    url(http://fonday.ru/images/tmp/12/5/original/12571xBztWCbFAmfvqpchXGEJNy.jpg);
+  background-blend-mode: screen;
+  padding: 30px;
+  font-size: 20px;
+  margin: auto;
+  background-size: cover;
+}
+
 .first {
   background: teal
     url(https://artwalls.com.ua/image/catalog/fpz/5ba0fd19bb2ccPA-181_o.jpg.pagespeed.ce.hvgbWXwyMw.jpg);
@@ -24,7 +34,7 @@
   border: rgba(235, 231, 227, 0.8) 15px solid;
   position: absolute;
   right: 710px;
-  top: 60px;
+  top: 100px;
 }
 
 .info {
