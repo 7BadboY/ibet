@@ -14,16 +14,17 @@ function Header({ toogleModal, isAuthentificated, onlogOut }) {
           Home
         </NavLink>
         <NavLink to="/about">About</NavLink>
-        {!isAuthentificated ? (
-          <button type="button" onClick={toogleModal}>
-            Sign in/up
-          </button>
-        ) : (
-          <button type="button" onClick={onlogOut}>
-            Log out
-          </button>
-        )}
+        <NavLink to="/contactus">Contact Us</NavLink>
       </nav>
+      {!isAuthentificated ? (
+        <button type="button" onClick={toogleModal}>
+          Sign in/up
+        </button>
+      ) : (
+        <button type="button" onClick={onlogOut}>
+          Log out
+        </button>
+      )}
     </header>
   );
 }

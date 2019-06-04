@@ -8,6 +8,7 @@ import About from './pages/About/About';
 import ActiveGames from './pages/ActiveGames/ActiveGames';
 import LoginModal from './components/ModalLogin/ModalLogin';
 import { refreshCurrentUser } from './components/ModalLogin/sessionActions';
+import ContactUs from './pages/ContactUs/ContactUs';
 
 class App extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ class App extends Component {
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/active/games" component={ActiveGames} />
+        <Route path="/contactus" component={ContactUs} />
       </div>
     );
   }
