@@ -73,7 +73,6 @@ function Header({ toogleModal, isAuthenticated }) {
                 Active games
               </NavLink>
             </Button>
-            <Button>Create new game</Button>
           </div>
         </div>
       </nav>
