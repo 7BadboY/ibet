@@ -30,6 +30,7 @@ class NewBetModal extends Component {
   closeModal = () => this.setState({ isModalOpen: false });
 
   handleOnSubmit = e => {
+    const { session } = this.props;
     e.preventDefault();
 
     if (Number(this.state.rate) > 10 || Number(this.state.rate) < 1)
@@ -45,8 +46,8 @@ class NewBetModal extends Component {
     fetch('http://localhost:8080/api/bets', {
       method: 'POST',
       body: JSON.stringify({
-        userID: uuidv4(),
-        userName: 'Bro',
+        userID: session.user.id,
+        userName: session.user.userName,
         points: Number(this.state.pointValue),
         type: this.state.category,
         betValue: Number(this.state.rate),
@@ -55,8 +56,7 @@ class NewBetModal extends Component {
       }),
       headers: {
         'content-type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEzMTMxMzEzIiwiaWQiOiI1Y2VmYTNmNGRjNWFhNzI0OTg3N2NlNmMiLCJpYXQiOjE1NTkyMTYyODcsImV4cCI6MTU1OTMwMjY4N30.bs_Eq86Fh57tW2YpSciwV-MoP6snlUJJbw8eKyK1yIE',
+        Authorization: `Bearer ${session.token}`,
       },
     })
       .then(response => {
@@ -156,7 +156,7 @@ class NewBetModal extends Component {
                         name="publicationBet"
                         onChange={this.handleNewBetChange}
                         value={publicationBet}
-                        type="date"
+                        type="datetime-local"
                       />
                     </TableCell>
                   </TableRow>
@@ -175,6 +175,7 @@ class NewBetModal extends Component {
 
 const mapStateToProps = state => ({
   active: state.active,
+  session: state.session,
 });
 
 export default connect(mapStateToProps)(NewBetModal);
