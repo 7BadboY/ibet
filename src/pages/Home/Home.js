@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -14,7 +14,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Home(props) {
+function Home() {
   const materialClasses = useStyles();
 
   return (
