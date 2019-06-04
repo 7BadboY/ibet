@@ -15,15 +15,13 @@ import styles from './NewBet.module.css';
 class NewBetModal extends Component {
   state = {
     isModalOpen: false,
-    category: '',
+    category: 'random',
     typeBet: ['random', 'cazino', 'football'],
     pointValue: '',
     startBet: '',
     publicationBet: '',
     rate: '',
   };
-
-  idFromPoints = uuidv4();
 
   openModal = () => this.setState({ isModalOpen: true });
 
@@ -33,13 +31,20 @@ class NewBetModal extends Component {
     const { session } = this.props;
     e.preventDefault();
 
+    if (this.state.pointValue > session.user.points)
+      return alert('Not enough points');
+
     if (Number(this.state.rate) > 10 || Number(this.state.rate) < 1)
       return alert('Enter number from 1 to 10');
+
     if (!Number.isInteger(Number(this.state.rate)))
       return alert('Enter integer');
+
     if (
       Date.parse(new Date(this.state.publicationBet)) >
-      Date.parse(new Date(this.state.startBet))
+        Date.parse(new Date(this.state.startBet)) ||
+      Date.parse(new Date(this.state.startBet)) < Date.now() ||
+      Date.parse(new Date(this.state.publicationBet)) < Date.now()
     )
       return alert('Enter valid date');
 
@@ -62,11 +67,14 @@ class NewBetModal extends Component {
       .then(response => {
         response.json().then(data => {
           console.log(data);
+          console.log(session);
         });
       })
       .catch(err => {
         console.log(err);
       });
+
+    this.reset();
   };
 
   handleNewBetChange = e => {
@@ -75,6 +83,17 @@ class NewBetModal extends Component {
       [name]: value,
     });
   };
+
+  reset() {
+    this.setState({
+      isModalOpen: false,
+      category: 'random',
+      pointValue: '',
+      startBet: '',
+      publicationBet: '',
+      rate: '',
+    });
+  }
 
   render() {
     const {
@@ -86,11 +105,14 @@ class NewBetModal extends Component {
       publicationBet,
       rate,
     } = this.state;
+    const { session } = this.props;
     return (
       <div>
-        <Button type="button" onClick={this.openModal}>
-          New Pari
-        </Button>
+        {session.isAuthenticated && (
+          <Button type="button" onClick={this.openModal}>
+            New Bet
+          </Button>
+        )}
 
         {isModalOpen && (
           <NewBet onClose={this.closeModal}>
@@ -105,7 +127,7 @@ class NewBetModal extends Component {
                   </TableRow>
                   <TableRow className={styles.test}>
                     <TableCell component="th" scope="row">
-                      Имя
+                      {session.user.userName}
                     </TableCell>
                     <TableCell>
                       <CategorySelector
