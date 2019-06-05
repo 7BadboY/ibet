@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 import s from './ProfUser.module.css';
 import ActiveBets from '../ActiveBets/ActiveBets';
 import FinishBets from '../FinishBets/FinishBets';
 
-const ProfUser = () => {
+const ProfUser = ({ session }) => {
   return (
     <div className={s.header}>
       <div className={s.main}>
@@ -15,9 +16,9 @@ const ProfUser = () => {
             alt=""
           />
           <div className={s.info}>
-            <div className={s.lineSecond}>Name: Porky Pig</div>
-            <div className={s.lineSecond}>Nick name: Pig</div>
-            <div className={s.lineSecond}>Points balance: 100</div>
+            <div className={s.lineSecond}>Name: {session.userName}</div>
+            <div className={s.lineSecond}>Nick name: Anonymous</div>
+            <div className={s.lineSecond}>Points balance: {session.points}</div>
             <div>
               <Button type="button" className={s.but}>
                 ADD BET
@@ -34,4 +35,10 @@ const ProfUser = () => {
   );
 };
 
-export default ProfUser;
+// Подключить коннект, добавить мапСтейт в коннект
+
+const mapStateToProps = state => ({
+  session: state.session.user,
+});
+// ProfUser.propTypes = {};
+export default connect(mapStateToProps)(ProfUser);
