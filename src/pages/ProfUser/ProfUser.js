@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 import s from './ProfUser.module.css';
-import ActiveBets from '../ActiveBets/ActiveBets';
-import FinishBets from '../FinishBets/FinishBets';
+import ActiveBets from '../../components/ActiveBets/ActiveBets';
+import FinishBets from '../../components/FinishBets/FinishBets';
 
 const ProfUser = ({ session }) => {
   return (
