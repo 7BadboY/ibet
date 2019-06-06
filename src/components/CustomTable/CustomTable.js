@@ -88,7 +88,7 @@ class CustomTable extends Component {
 
   render() {
     const { active, filter } = this.state;
-    // const { enterGame } = this.props;
+    const { session } = this.props;
     let filtredActive;
     if (filter === 'closed') {
       filtredActive = active.filter(el => el.isActive);
@@ -135,13 +135,15 @@ class CustomTable extends Component {
                 <TableCell align="right">{row.betValue}</TableCell>
                 <TableCell align="right">{row.exitDate}</TableCell>
                 <TableCell align="right">
-                  <Button
-                    type="button"
-                    onClick={() => this.onHandleActiveGame(row)}
-                    disabled={'partnerID' in row}
-                  >
-                    apply
-                  </Button>
+                  {session.user.id !== row.userID && (
+                    <Button
+                      type="button"
+                      onClick={() => this.onHandleActiveGame(row)}
+                      disabled={'partnerID' in row}
+                    >
+                      apply
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
