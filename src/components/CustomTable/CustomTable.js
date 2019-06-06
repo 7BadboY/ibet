@@ -71,13 +71,14 @@ class CustomTable extends Component {
   };
 
   onHandleActiveGame = row => {
-    const { active, session, addId } = this.props;
-    if (active.points <= session.user.points) {
+    const { session, apply } = this.props;
+    if (row.points <= +session.user.points) {
+      console.log('click');
       this.props.enterGame(row.id);
       const betData = { ...row };
       betData.partnerID = session.user.id;
       betData.partnerName = session.user.userName;
-      addId(row.id, betData, session.token);
+      apply(row._id, betData, session.token);
     }
   };
 
@@ -137,7 +138,7 @@ class CustomTable extends Component {
                   <Button
                     type="button"
                     onClick={() => this.onHandleActiveGame(row)}
-                    disabled={row.isActive === true}
+                    disabled={'partnerID' in row}
                   >
                     apply
                   </Button>
@@ -155,12 +156,12 @@ CustomTable.propTypes = {
   active: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   enterGame: PropTypes.func.isRequired,
-  addId: PropTypes.func.isRequired,
+  apply: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   enterGame: id => dispatch(enterGame(id)),
-  addId: (id, token) => dispatch(handleOnApply(id, token)),
+  apply: (id, data, token) => dispatch(handleOnApply(id, data, token)),
 });
 
 export default connect(
