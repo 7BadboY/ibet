@@ -37,7 +37,7 @@ class NewPariModal extends Component {
     if (!Number.isInteger(Number(this.state.rate)))
       return alert('Enter integer');
 
-    fetch('http://localhost:8080/api/bets', {
+    return fetch('http://localhost:8080/api/bets', {
       method: 'POST',
       body: JSON.stringify({
         userID: uuidv4(),

@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classes from './CustomTable.module.css';
 import Filter from '../Filter/Filter';
-import { enterGame } from './tableAction';
+import { enterGame, handleOnApply } from './tableAction';
 
 // const useStyles = makeStyles(theme => ({
 //   root: {
@@ -26,7 +26,7 @@ import { enterGame } from './tableAction';
 //   },
 // }));
 
-class SimpleTable extends Component {
+class CustomTable extends Component {
   state = {
     active: this.props.active,
     currentEnter: '',
@@ -71,7 +71,11 @@ class SimpleTable extends Component {
   };
 
   onHandleActiveGame = id => {
-    this.props.enterGame(id);
+    const { active, session, addId } = this.props;
+    if (active.points <= session.user.points) {
+      this.props.enterGame(id);
+      addId(session.user.id, session.token);
+    }
   };
 
   onHandleChangeFilter = filter => {
@@ -144,15 +148,19 @@ class SimpleTable extends Component {
   }
 }
 
-SimpleTable.propTypes = {
+CustomTable.propTypes = {
   active: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  enterGame: PropTypes.func.isRequired,
+  addId: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   enterGame: id => dispatch(enterGame(id)),
+  addId: (id, token) => dispatch(handleOnApply(id, token)),
 });
 
 export default connect(
   null,
   mapDispatchToProps,
-)(SimpleTable);
+)(CustomTable);

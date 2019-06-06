@@ -4,41 +4,35 @@ import { connect } from 'react-redux';
 import { asyncGetBets } from '../../components/CustomTable/tableAction';
 import CustomTable from '../../components/CustomTable/CustomTable';
 // import NewPariModal from '../../components/NewPari/NewPariModal';
-import NewPariModal from '../../components/NewPari/NewPariModal';
 
-<<<<<<< HEAD
 class ActiveGames extends Component {
   state = {};
 
   componentDidMount() {
-    this.props.getBets();
+    const { getBets } = this.props;
+    getBets();
   }
 
   render() {
-    const { active } = this.props;
+    const { active, session } = this.props;
     return (
       <div>
         <h2>ActiveGames</h2>
-        <CustomTable active={active} />
+        <CustomTable active={active} session={session} />
       </div>
     );
   }
-=======
-function ActiveGames({ active }) {
-  return (
-    <div>
-      <NewPariModal />
-      <h2>ActiveGames</h2>
-      <CustomTable active={active} />
-    </div>
-  );
->>>>>>> dev
 }
 
-ActiveGames.propTypes = {};
+ActiveGames.propTypes = {
+  getBets: PropTypes.func.isRequired,
+  active: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};
 
 const mapStateToProps = state => ({
   active: state.active.items,
+  session: state.session,
 });
 
 const mapDispatchToProps = dispatch => ({
