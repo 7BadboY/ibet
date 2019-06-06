@@ -17,8 +17,8 @@ const ProfUser = ({ session }) => {
           />
           <div className={s.info}>
             <div className={s.lineSecond}>Name: {session.userName}</div>
-            <div className={s.lineSecond}>Nick name: Anonymous</div>
-            <div className={s.lineSecond}>Points balance: {session.points}</div>
+            <div className={s.lineSecond}>Nick: Anonymous</div>
+            <div className={s.lineSecond}>Balance: {session.points}</div>
             <div>
               <Button type="button" className={s.but}>
                 ADD BET
