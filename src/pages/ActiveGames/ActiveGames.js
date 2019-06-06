@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { asyncGetBets } from '../../components/CustomTable/tableAction';
 import CustomTable from '../../components/CustomTable/CustomTable';
+// import NewPariModal from '../../components/NewPari/NewPariModal';
+import NewPariModal from '../../components/NewPari/NewPariModal';
 
+<<<<<<< HEAD
 class ActiveGames extends Component {
   state = {};
 
@@ -20,6 +23,16 @@ class ActiveGames extends Component {
       </div>
     );
   }
+=======
+function ActiveGames({ active }) {
+  return (
+    <div>
+      <NewPariModal />
+      <h2>ActiveGames</h2>
+      <CustomTable active={active} />
+    </div>
+  );
+>>>>>>> dev
 }
 
 ActiveGames.propTypes = {};
