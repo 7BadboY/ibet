@@ -70,11 +70,14 @@ class CustomTable extends Component {
     });
   };
 
-  onHandleActiveGame = id => {
+  onHandleActiveGame = row => {
     const { active, session, addId } = this.props;
     if (active.points <= session.user.points) {
-      this.props.enterGame(id);
-      addId(session.user.id, session.token);
+      this.props.enterGame(row.id);
+      const betData = { ...row };
+      betData.partnerID = session.user.id;
+      betData.partnerName = session.user.userName;
+      addId(row.id, betData, session.token);
     }
   };
 
@@ -133,7 +136,7 @@ class CustomTable extends Component {
                 <TableCell align="right">
                   <Button
                     type="button"
-                    onClick={() => this.onHandleActiveGame(row.id)}
+                    onClick={() => this.onHandleActiveGame(row)}
                     disabled={row.isActive === true}
                   >
                     apply

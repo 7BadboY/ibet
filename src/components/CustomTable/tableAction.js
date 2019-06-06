@@ -29,8 +29,10 @@ export const asyncGetBets = () => dispatch => {
     .catch(err => dispatch(fetchFailure(err)));
 };
 
-export const handleOnApply = (partnerId, token) => {
-  fetch(`http://localhost:8080/api/bets/apply/${partnerId}`, {
+export const handleOnApply = (beatId, beatData, token) => {
+  fetch(`http://localhost:8080/api/bets/apply/${beatId}`, {
+    method: 'POST',
+    body: JSON.stringify(beatData),
     headers: {
       'content-type': 'application/json',
       Authorization: token,
