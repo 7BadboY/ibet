@@ -149,23 +149,25 @@ class SimpleTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filtredActive.map((row, indx) => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {indx + 1}
-                </TableCell>
-                <TableCell align="right">{row.userName}</TableCell>
-                <TableCell align="right">{row.points}</TableCell>
-                <TableCell align="right">{row.type}</TableCell>
-                <TableCell align="right">{row.betValue}</TableCell>
-                <TableCell align="right">{row.exitDate}</TableCell>
-                <TableCell align="right">
-                  <Button type="button" disabled={row.isActive === true}>
-                    apply
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {filtredActive &&
+              filtredActive.length > 0 &&
+              filtredActive.map((row, indx) => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {indx + 1}
+                  </TableCell>
+                  <TableCell align="right">{row.userName}</TableCell>
+                  <TableCell align="right">{row.points}</TableCell>
+                  <TableCell align="right">{row.type}</TableCell>
+                  <TableCell align="right">{row.betValue}</TableCell>
+                  <TableCell align="right">{row.exitDate}</TableCell>
+                  <TableCell align="right">
+                    <Button type="button" disabled={row.isActive === true}>
+                      apply
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </Paper>

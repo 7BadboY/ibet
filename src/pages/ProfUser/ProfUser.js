@@ -27,7 +27,7 @@ const ProfUser = ({ session }) => {
           </div>
         </div>
         <div className={s.bet}>
-          <ActiveBets />
+          <ActiveBets active={(session.user || {}).bets || []} />
           <FinishBets />
         </div>
       </div>
