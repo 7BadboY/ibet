@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react';
-import styles from './NewPari.module.css';
+import styles from './NewBet.module.css';
 
-export default class NewPari extends Component {
+export default class NewBet extends Component {
   backdropRef = createRef();
 
   componentDidMount() {

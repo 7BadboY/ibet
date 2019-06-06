@@ -8,14 +8,14 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import uuidv4 from 'uuid/v4';
-import NewPari from './NewPari';
+import NewBet from './NewBet';
 import CategorySelector from './CategorySelector';
-import styles from './NewPari.module.css';
+import styles from './NewBet.module.css';
 
-class NewPariModal extends Component {
+class NewBetModal extends Component {
   state = {
     isModalOpen: false,
-    category: '',
+    category: 'random',
     typeBet: ['random', 'cazino', 'football'],
     pointValue: '',
     startBet: '',
@@ -23,56 +23,77 @@ class NewPariModal extends Component {
     rate: '',
   };
 
-  idFromPoints = uuidv4();
-
   openModal = () => this.setState({ isModalOpen: true });
 
   closeModal = () => this.setState({ isModalOpen: false });
 
   handleOnSubmit = e => {
+    const { session } = this.props;
     e.preventDefault();
+
+    if (this.state.pointValue > session.user.points)
+      return alert('Not enough points');
 
     if (Number(this.state.rate) > 10 || Number(this.state.rate) < 1)
       return alert('Enter number from 1 to 10');
+
     if (!Number.isInteger(Number(this.state.rate)))
       return alert('Enter integer');
 
-    return fetch('http://localhost:8080/api/bets', {
+    if (
+      Date.parse(new Date(this.state.publicationBet)) >
+        Date.parse(new Date(this.state.startBet)) ||
+      Date.parse(new Date(this.state.startBet)) < Date.now() ||
+      Date.parse(new Date(this.state.publicationBet)) < Date.now()
+    )
+      return alert('Enter valid date');
+
+    fetch('http://localhost:8080/api/bets', {
       method: 'POST',
       body: JSON.stringify({
-        userID: uuidv4(),
-        userName: 'Bro',
+        userID: session.user.id,
+        userName: session.user.userName,
         points: Number(this.state.pointValue),
         type: this.state.category,
         betValue: Number(this.state.rate),
-        exitDate: this.state.publicationBet,
-        creatingDate: this.state.startBet,
+        exitDate: Date.parse(new Date(this.state.publicationBet)),
+        creatingDate: Date.parse(new Date(this.state.startBet)),
       }),
       headers: {
         'content-type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEzMTMxMzEzIiwiaWQiOiI1Y2VmYTNmNGRjNWFhNzI0OTg3N2NlNmMiLCJpYXQiOjE1NTkyMTYyODcsImV4cCI6MTU1OTMwMjY4N30.bs_Eq86Fh57tW2YpSciwV-MoP6snlUJJbw8eKyK1yIE',
+        Authorization: `Bearer ${session.token}`,
       },
     })
       .then(response => {
         response.json().then(data => {
           console.log(data);
+          console.log(session);
         });
       })
       .catch(err => {
         console.log(err);
       });
+
+    this.reset();
   };
 
   handleNewBetChange = e => {
     const { name, value } = e.target;
     this.setState({
-      [name]:
-        name === 'startBet' || name === 'publicationBet'
-          ? Date.parse(new Date(value))
-          : value,
+      [name]: value,
     });
   };
+
+  reset() {
+    this.setState({
+      isModalOpen: false,
+      category: 'random',
+      pointValue: '',
+      startBet: '',
+      publicationBet: '',
+      rate: '',
+    });
+  }
 
   render() {
     const {
@@ -84,14 +105,17 @@ class NewPariModal extends Component {
       publicationBet,
       rate,
     } = this.state;
+    const { session } = this.props;
     return (
       <div>
-        <Button type="button" onClick={this.openModal}>
-          New Pari
-        </Button>
+        {session.isAuthenticated && (
+          <Button type="button" onClick={this.openModal}>
+            New Bet
+          </Button>
+        )}
 
         {isModalOpen && (
-          <NewPari onClose={this.closeModal}>
+          <NewBet onClose={this.closeModal}>
             <form onSubmit={this.handleOnSubmit}>
               <Table>
                 <TableHead>
@@ -103,7 +127,7 @@ class NewPariModal extends Component {
                   </TableRow>
                   <TableRow className={styles.test}>
                     <TableCell component="th" scope="row">
-                      Имя
+                      {session.user.userName}
                     </TableCell>
                     <TableCell>
                       <CategorySelector
@@ -154,7 +178,7 @@ class NewPariModal extends Component {
                         name="publicationBet"
                         onChange={this.handleNewBetChange}
                         value={publicationBet}
-                        type="date"
+                        type="datetime-local"
                       />
                     </TableCell>
                   </TableRow>
@@ -164,7 +188,7 @@ class NewPariModal extends Component {
                 Создать
               </Button>
             </form>
-          </NewPari>
+          </NewBet>
         )}
       </div>
     );
@@ -173,6 +197,7 @@ class NewPariModal extends Component {
 
 const mapStateToProps = state => ({
   active: state.active,
+  session: state.session,
 });
 
-export default connect(mapStateToProps)(NewPariModal);
+export default connect(mapStateToProps)(NewBetModal);

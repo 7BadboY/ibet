@@ -12,7 +12,7 @@ const CategorySelector = ({ types = [], value, onChange }) => (
 );
 
 CategorySelector.propTypes = {
-  types: PropTypes.arrayOf().isRequired,
+  types: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
