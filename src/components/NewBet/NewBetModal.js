@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import uuidv4 from 'uuid/v4';
 import NewBet from './NewBet';
 import CategorySelector from './CategorySelector';
+import { asyncCreateBet } from '../CustomTable/tableAction';
 import styles from './NewBet.module.css';
 
 class NewBetModal extends Component {
@@ -33,7 +34,7 @@ class NewBetModal extends Component {
   closeModal = () => this.setState({ isModalOpen: false });
 
   handleOnSubmit = e => {
-    const { session } = this.props;
+    const { session, createBet } = this.props;
     e.preventDefault();
 
     if (this.state.pointValue > session.user.points)
@@ -53,31 +54,17 @@ class NewBetModal extends Component {
     )
       return alert('Enter valid date');
 
-    fetch('http://localhost:8080/api/bets', {
-      method: 'POST',
-      body: JSON.stringify({
-        userID: session.user.id,
-        userName: session.user.userName,
-        points: Number(this.state.pointValue),
-        type: this.state.category || 'random',
-        betValue: Number(this.state.rate),
-        exitDate: Date.parse(new Date(this.state.publicationBet)),
-        creatingDate: Date.parse(new Date(this.state.startBet)),
-      }),
-      headers: {
-        'content-type': 'application/json',
-        Authorization: `Bearer ${session.token}`,
-      },
-    })
-      .then(response => {
-        response.json().then(data => {
-          console.log(data);
-          console.log(session);
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    const betData = {
+      userID: session.user.id,
+      userName: session.user.userName,
+      points: Number(this.state.pointValue),
+      type: this.state.category || 'random',
+      betValue: Number(this.state.rate),
+      exitDate: Date.parse(new Date(this.state.publicationBet)),
+      creatingDate: Date.parse(new Date(this.state.startBet)),
+    };
+
+    createBet(betData, session.token);
 
     this.reset();
   };
@@ -101,7 +88,6 @@ class NewBetModal extends Component {
   }
 
   render() {
-    console.log(new Date().toISOString().substring(0, 16));
     const {
       isModalOpen,
       category,
@@ -116,7 +102,7 @@ class NewBetModal extends Component {
       <div>
         {session.isAuthenticated && (
           <Button type="button" onClick={this.openModal}>
-            New Bet
+            NEW BET
           </Button>
         )}
 
@@ -176,10 +162,11 @@ class NewBetModal extends Component {
                   type="datetime-local"
                 />
               </label>
-
-              <Button type="submit" color="primary" className={styles.modalBtn}>
-                Создать
-              </Button>
+              <div className={styles.modalBtn}>
+                <Button type="submit" color="primary">
+                  ADD BET
+                </Button>
+              </div>
             </form>
           </NewBet>
         )}
@@ -189,8 +176,14 @@ class NewBetModal extends Component {
 }
 
 const mapStateToProps = state => ({
-  active: state.active,
   session: state.session,
 });
 
-export default connect(mapStateToProps)(NewBetModal);
+const mapDispatchToProps = dispatch => ({
+  createBet: (betData, token) => dispatch(asyncCreateBet(betData, token)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NewBetModal);

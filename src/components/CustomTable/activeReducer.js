@@ -1,4 +1,4 @@
-import { BET_FETCH_SUCCESS, BET_APLLY } from '../../utils/constans';
+import { BET_FETCH_SUCCESS, BET_APLLY } from '../../utils/constants';
 
 const initialBets = {
   loading: false,

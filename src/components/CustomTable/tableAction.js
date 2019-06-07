@@ -2,7 +2,7 @@ import {
   BET_APLLY,
   BET_FETCH_SUCCESS,
   BET_FETCH_FAILURE,
-} from '../../utils/constans';
+} from '../../utils/constants';
 
 export const enterGame = id => ({
   type: BET_APLLY,
@@ -32,6 +32,28 @@ export const asyncGetBets = () => dispatch => {
 export const handleOnApply = (beatId, beatData, token) => dispatch => {
   fetch(`http://localhost:8080/api/bets/apply/${beatId}`, {
     method: 'PUT',
+    body: JSON.stringify(beatData),
+    headers: {
+      'content-type': 'application/json',
+      Authorization: token,
+    },
+  })
+    .then(response => {
+      response.json().then(data => {
+        console.log(data);
+        dispatch(fetchSuccess(data.bets));
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+export const asyncCreateBet = (beatData, token) => dispatch => {
+  console.log('beatData', beatData);
+  console.log('token', token);
+  fetch(`http://localhost:8080/api/bets`, {
+    method: 'POST',
     body: JSON.stringify(beatData),
     headers: {
       'content-type': 'application/json',
