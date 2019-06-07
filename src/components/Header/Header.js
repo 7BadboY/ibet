@@ -66,7 +66,7 @@ function Header({ toogleModal, isAuthenticated }) {
           </div>
         </div>
         <div className={classes.navigation__greet}>
-          <h2 className={classes.greeting}>WELCOME!</h2>
+          <h2 className={classes.greeting}>Bit! Bet! BOOT camp;)</h2>
           <div className={classes.headerButton}>
             <Button>
               <NavLink className={classes.navInfo} exact to="/active_games">
