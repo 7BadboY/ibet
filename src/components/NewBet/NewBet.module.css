@@ -14,7 +14,7 @@
 .modal {
   position: relative;
   padding: 16px;
-  max-width: 800px;
+  max-width: 500px;
   width: 100%;
   min-height: 200px;
   background-color: #fff;
@@ -28,29 +28,18 @@
   border: none;
 }
 
-.modalBtn {
-  margin-left: 100px;
+.betForm label, .betForm p {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  padding: 10px;
+  border-bottom: 1px solid rgb(189, 183, 183);
 }
 
-.modalPoints {
-  width: 70px;
+.betForm input, .betForm select {
+  width: 160px;
 }
 
-.modalStartPariDate {
-  width: 190px;
-}
-
-.modalPublicDate {
-  width: 190px;
-}
-
-.closeBtn:hover {
-  background-color: rgba(0, 0, 0, 0.12);
-}
-
-.test {
-  margin-bottom: 50px;
-}
 
 .modal input[type='number']::-webkit-inner-spin-button,
 .modal input[type='number']::-webkit-outer-spin-button {

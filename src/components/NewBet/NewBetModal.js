@@ -23,6 +23,8 @@ class NewBetModal extends Component {
     rate: '',
   };
 
+  componentDidMount;
+
   openModal = () => this.setState({ isModalOpen: true });
 
   closeModal = () => this.setState({ isModalOpen: false });
@@ -116,74 +118,60 @@ class NewBetModal extends Component {
 
         {isModalOpen && (
           <NewBet onClose={this.closeModal}>
-            <form onSubmit={this.handleOnSubmit}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Type</TableCell>
-                    <TableCell>Point</TableCell>
-                    <TableCell>Rate</TableCell>
-                  </TableRow>
-                  <TableRow className={styles.test}>
-                    <TableCell component="th" scope="row">
-                      {session.user.userName}
-                    </TableCell>
-                    <TableCell>
-                      <CategorySelector
-                        name="category"
-                        value={category}
-                        onChange={this.handleNewBetChange}
-                        types={typeBet}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <input
-                        className={styles.modalPoints}
-                        type="number"
-                        value={pointValue}
-                        name="pointValue"
-                        onChange={this.handleNewBetChange}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <input
-                        className={styles.modalPoints}
-                        type="number"
-                        value={rate}
-                        name="rate"
-                        onChange={this.handleNewBetChange}
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Start Game</TableCell>
-                    <TableCell>Publication</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <TextField
-                        className={styles.modalStartPariDate}
-                        name="startBet"
-                        onChange={this.handleNewBetChange}
-                        value={startBet}
-                        type="datetime-local"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        className={styles.modalPublicDate}
-                        name="publicationBet"
-                        onChange={this.handleNewBetChange}
-                        value={publicationBet}
-                        type="datetime-local"
-                      />
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+            <form onSubmit={this.handleOnSubmit} className={styles.betForm}>
+              <p>
+                Name <span>{session.user.userName}</span>
+              </p>
+              <label>
+                Type
+                <CategorySelector
+                  name="category"
+                  value={category}
+                  onChange={this.handleNewBetChange}
+                  types={typeBet}
+                />
+              </label>
+              <label>
+                Point
+                <TextField
+                  className={styles.modalPoints}
+                  type="number"
+                  value={pointValue}
+                  name="pointValue"
+                  onChange={this.handleNewBetChange}
+                />
+              </label>
+              <label>
+                Rate
+                <TextField
+                  className={styles.modalPoints}
+                  type="number"
+                  value={rate}
+                  name="rate"
+                  onChange={this.handleNewBetChange}
+                />
+              </label>
+              <label>
+                Start Game
+                <TextField
+                  className={styles.modalStartPariDate}
+                  name="startBet"
+                  onChange={this.handleNewBetChange}
+                  value={startBet}
+                  type="datetime-local"
+                />
+              </label>
+              <label>
+                Publication
+                <TextField
+                  className={styles.modalPublicDate}
+                  name="publicationBet"
+                  onChange={this.handleNewBetChange}
+                  value={publicationBet}
+                  type="datetime-local"
+                />
+              </label>
+
               <Button type="submit" color="primary" className={styles.modalBtn}>
                 Создать
               </Button>
