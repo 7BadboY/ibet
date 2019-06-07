@@ -29,7 +29,7 @@ function Footer() {
                 <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" />
               </SvgIcon>
             </IconButton>
-            <NavLink to="/about">ibet@gmail.com</NavLink>
+            <NavLink to="/contactus">ibet@gmail.com</NavLink>
           </p>
           <p className={classes.icons}>
             <IconButton aria-label="Delete">
@@ -59,7 +59,8 @@ function Footer() {
         </div>
       </div>
       <div className={classes.footerWrapper__bottom}>
-        <br />© 2019 iBET - greatest betting company online
+        <br />
+        &copy; 2019 iBET - greatest betting company online
         <br />
         ibet.com is owned and operated by ibet, Maldives.
       </div>

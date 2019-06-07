@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 // import TextField from '@material-ui/core/TextField';
+import { NavLink } from 'react-router-dom';
 import classes from './Home.module.css';
 import Earth from '../../img/Earth1.jpg';
 
@@ -25,7 +26,7 @@ function Home() {
         className={classes.wrapper}
         onSubmit={e => {
           e.preventDefault();
-          alert('submit');
+          // alert('submit');
         }}
         noValidate
         autoComplete="off"
@@ -54,8 +55,9 @@ function Home() {
         </p>
 
         <Button className={classes.deal}>
-          <span className={classes.click}>Click here</span> to make deal and
-          earn real money
+          <NavLink className={classes.click} exact to="/active_games">
+            Click here to make deal and earn real money
+          </NavLink>
         </Button>
         {/* <TextField
           id="outlined-name"
