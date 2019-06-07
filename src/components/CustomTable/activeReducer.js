@@ -1,12 +1,12 @@
 import { BET_FETCH_SUCCESS, BET_APLLY } from '../../utils/constans';
 
-const initialTodos = {
+const initialBets = {
   loading: false,
   items: [],
   error: null,
 };
 
-const activeReducer = (state = initialTodos, { type, payload }) => {
+const activeReducer = (state = initialBets, { type, payload }) => {
   switch (type) {
     case BET_FETCH_SUCCESS:
       return { ...state, items: payload };

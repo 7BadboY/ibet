@@ -21,7 +21,7 @@ function Header({ toogleModal, isAuthenticated }) {
               <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z" />
             </SvgIcon>
             <Clock
-              className={classes.navInfo}
+              className={classes.navInfo_time}
               format="LT"
               ticking
               timezone="Europe/Kiev"
@@ -49,7 +49,7 @@ function Header({ toogleModal, isAuthenticated }) {
       <nav className={classes.navigation__bottom}>
         <div className={classes.logoString}>
           <div className={classes.navigation__logo}>
-            <NavLink className={classes.navInfo} exact to="/">
+            <NavLink className={classes.navInfo__logo} exact to="/">
               iBET
             </NavLink>
           </div>

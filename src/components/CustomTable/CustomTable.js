@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classes from './CustomTable.module.css';
 import Filter from '../Filter/Filter';
-import { enterGame } from './tableAction';
+import { enterGame, handleOnApply } from './tableAction';
 
 // const useStyles = makeStyles(theme => ({
 //   root: {
@@ -26,7 +26,7 @@ import { enterGame } from './tableAction';
 //   },
 // }));
 
-class SimpleTable extends Component {
+class CustomTable extends Component {
   state = {
     active: this.props.active,
     currentEnter: '',
@@ -70,8 +70,16 @@ class SimpleTable extends Component {
     });
   };
 
-  onHandleActiveGame = id => {
-    this.props.enterGame(id);
+  onHandleActiveGame = row => {
+    const { session, apply } = this.props;
+    if (row.points <= +session.user.points) {
+      console.log('click');
+      this.props.enterGame(row.id);
+      const betData = { ...row };
+      betData.partnerID = session.user.id;
+      betData.partnerName = session.user.userName;
+      apply(row._id, betData, session.token);
+    }
   };
 
   onHandleChangeFilter = filter => {
@@ -80,7 +88,7 @@ class SimpleTable extends Component {
 
   render() {
     const { active, filter } = this.state;
-    // const { enterGame } = this.props;
+    const { session } = this.props;
     let filtredActive;
     if (filter === 'closed') {
       filtredActive = active.filter(el => el.isActive);
@@ -116,27 +124,27 @@ class SimpleTable extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filtredActive.map((row, indx) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {indx + 1}
-                </TableCell>
-                <TableCell align="right">{row.userName}</TableCell>
-                <TableCell align="right">{row.points}</TableCell>
-                <TableCell align="right">{row.type}</TableCell>
-                <TableCell align="right">{row.betValue}</TableCell>
-                <TableCell align="right">{row.exitDate}</TableCell>
-                <TableCell align="right">
-                  <Button
-                    type="button"
-                    onClick={() => this.onHandleActiveGame(row.id)}
-                    disabled={row.isActive === true}
-                  >
-                    apply
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {filtredActive &&
+              filtredActive.length > 0 &&
+              filtredActive.map((row, indx) => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {indx + 1}
+                  </TableCell>
+                  <TableCell align="right">{row.userName}</TableCell>
+                  <TableCell align="right">{row.points}</TableCell>
+                  <TableCell align="right">{row.type}</TableCell>
+                  <TableCell align="right">{row.betValue}</TableCell>
+                  <TableCell align="right">{row.exitDate}</TableCell>
+                  <TableCell align="right">
+                    {session.user.id === row.partnerID && (
+                      <Button type="button" disabled={'partnerID' in row}>
+                        apply
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </Paper>
@@ -144,15 +152,19 @@ class SimpleTable extends Component {
   }
 }
 
-SimpleTable.propTypes = {
+CustomTable.propTypes = {
   active: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  enterGame: PropTypes.func.isRequired,
+  apply: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
   enterGame: id => dispatch(enterGame(id)),
+  apply: (id, data, token) => dispatch(handleOnApply(id, data, token)),
 });
 
 export default connect(
   null,
   mapDispatchToProps,
-)(SimpleTable);
+)(CustomTable);

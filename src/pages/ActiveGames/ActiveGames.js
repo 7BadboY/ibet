@@ -9,25 +9,31 @@ class ActiveGames extends Component {
   state = {};
 
   componentDidMount() {
-    this.props.getBets();
+    const { getBets } = this.props;
+    getBets();
   }
 
   render() {
-    const { active } = this.props;
+    const { active, session } = this.props;
     return (
       <div>
         <h2>ActiveGames</h2>
         <NewBetModal />
-        <CustomTable active={active} />
+        <CustomTable active={active} session={session} />
       </div>
     );
   }
 }
 
-ActiveGames.propTypes = {};
+ActiveGames.propTypes = {
+  getBets: PropTypes.func.isRequired,
+  active: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};
 
 const mapStateToProps = state => ({
   active: state.active.items,
+  session: state.session,
 });
 
 const mapDispatchToProps = dispatch => ({

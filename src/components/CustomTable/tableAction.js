@@ -28,3 +28,23 @@ export const asyncGetBets = () => dispatch => {
     })
     .catch(err => dispatch(fetchFailure(err)));
 };
+
+export const handleOnApply = (beatId, beatData, token) => dispatch => {
+  fetch(`http://localhost:8080/api/bets/apply/${beatId}`, {
+    method: 'PUT',
+    body: JSON.stringify(beatData),
+    headers: {
+      'content-type': 'application/json',
+      Authorization: token,
+    },
+  })
+    .then(response => {
+      response.json().then(data => {
+        console.log(data);
+        dispatch(fetchSuccess(data.bets));
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};

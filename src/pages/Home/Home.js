@@ -1,23 +1,24 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 // import TextField from '@material-ui/core/TextField';
+import { NavLink } from 'react-router-dom';
 import classes from './Home.module.css';
 import Earth from '../../img/Earth1.jpg';
 
-const useStyles = makeStyles(() => ({
-  button: {
-    margin: '20',
-  },
-  input: {
-    borderColor: 'red',
-  },
-}));
+// const useStyles = makeStyles(() => ({
+//   button: {
+//     margin: '20',
+//   },
+//   input: {
+//     borderColor: 'red',
+//   },
+// }));
 
 function Home() {
-  const materialClasses = useStyles();
+  // const materialClasses = useStyles();
 
   return (
     <div>
@@ -25,7 +26,7 @@ function Home() {
         className={classes.wrapper}
         onSubmit={e => {
           e.preventDefault();
-          alert('submit');
+          // alert('submit');
         }}
         noValidate
         autoComplete="off"
@@ -54,8 +55,9 @@ function Home() {
         </p>
 
         <Button className={classes.deal}>
-          <span className={classes.click}>Click here</span> to make deal and
-          earn real money
+          <NavLink className={classes.click} exact to="/active_games">
+            Click here to make deal and earn real money
+          </NavLink>
         </Button>
         {/* <TextField
           id="outlined-name"
