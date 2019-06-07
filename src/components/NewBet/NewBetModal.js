@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import uuidv4 from 'uuid/v4';
@@ -18,12 +13,20 @@ class NewBetModal extends Component {
     category: 'random',
     typeBet: ['random', 'cazino', 'football'],
     pointValue: '',
-    startBet: '',
-    publicationBet: '',
+    startBet: new Date().toISOString().substring(0, 16),
+    publicationBet: new Date().toISOString().substring(0, 16),
     rate: '',
   };
 
-  componentDidMount;
+  idForType = uuidv4();
+
+  idForPoint = uuidv4();
+
+  idForRate = uuidv4();
+
+  idForStartGame = uuidv4();
+
+  idForPublication = uuidv4();
 
   openModal = () => this.setState({ isModalOpen: true });
 
@@ -98,6 +101,7 @@ class NewBetModal extends Component {
   }
 
   render() {
+    console.log(new Date().toISOString().substring(0, 16));
     const {
       isModalOpen,
       category,
@@ -122,49 +126,50 @@ class NewBetModal extends Component {
               <p>
                 Name <span>{session.user.userName}</span>
               </p>
-              <label>
+              <label htmlFor={this.idForType}>
                 Type
                 <CategorySelector
+                  id={this.idForType}
                   name="category"
                   value={category}
                   onChange={this.handleNewBetChange}
                   types={typeBet}
                 />
               </label>
-              <label>
+              <label htmlFor={this.idForPoint}>
                 Point
                 <TextField
-                  className={styles.modalPoints}
+                  id={this.idForPoint}
                   type="number"
                   value={pointValue}
                   name="pointValue"
                   onChange={this.handleNewBetChange}
                 />
               </label>
-              <label>
+              <label htmlFor={this.idForRate}>
                 Rate
                 <TextField
-                  className={styles.modalPoints}
+                  id={this.idForRate}
                   type="number"
                   value={rate}
                   name="rate"
                   onChange={this.handleNewBetChange}
                 />
               </label>
-              <label>
+              <label htmlFor={this.idForStartGame}>
                 Start Game
                 <TextField
-                  className={styles.modalStartPariDate}
+                  id={this.idForStartGame}
                   name="startBet"
                   onChange={this.handleNewBetChange}
                   value={startBet}
                   type="datetime-local"
                 />
               </label>
-              <label>
+              <label htmlFor={this.idForPublication}>
                 Publication
                 <TextField
-                  className={styles.modalPublicDate}
+                  id={this.idForPublication}
                   name="publicationBet"
                   onChange={this.handleNewBetChange}
                   value={publicationBet}
