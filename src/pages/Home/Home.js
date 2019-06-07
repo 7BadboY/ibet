@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 // import TextField from '@material-ui/core/TextField';
+import { NavLink } from 'react-router-dom';
 import classes from './Home.module.css';
 import Earth from '../../img/Earth1.jpg';
 
@@ -43,7 +44,7 @@ function Home() {
           <Button>Contact Us</Button>
           <Button>Log Out</Button>
         </nav> */}
-        <span className={classes.title}>Hello dear friend!</span>
+        <span className={classes.title}>HELLO DEAR FRIEND!</span>
         <p className={classes.description}>
           With our site you can argue with any person from anywhere in the
           world!
@@ -53,10 +54,9 @@ function Home() {
           <img className={classes.earth} src={Earth} alt="earth" />
         </p>
 
-        <Button className={classes.deal}>
-          <span className={classes.click}>Click here</span> to make deal and
-          earn real money
-        </Button>
+        <NavLink className={classes.deal} exact to="/active_games">
+          Click here to make deal and earn real money
+        </NavLink>
         {/* <TextField
           id="outlined-name"
           label="Username"
