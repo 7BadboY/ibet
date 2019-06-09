@@ -88,7 +88,7 @@ class CustomTable extends Component {
 
   render() {
     const { active, filter } = this.state;
-    const { session } = this.props;
+    const { session, disabledFunc } = this.props;
     let filtredActive;
     if (filter === 'closed') {
       filtredActive = active.filter(el => el.isActive);
@@ -99,10 +99,12 @@ class CustomTable extends Component {
     }
     return (
       <Paper className={classes.root}>
-        <Filter
-          filter={filter}
-          onHandleChangeFilter={this.onHandleChangeFilter}
-        />
+        {!disabledFunc && (
+          <Filter
+            filter={filter}
+            onHandleChangeFilter={this.onHandleChangeFilter}
+          />
+        )}
         <TextField
           id="outlined-name"
           label="Name"
@@ -157,6 +159,11 @@ CustomTable.propTypes = {
   session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   enterGame: PropTypes.func.isRequired,
   apply: PropTypes.func.isRequired,
+  disabledFunc: PropTypes.bool,
+};
+
+CustomTable.defaultProps = {
+  disabledFunc: false,
 };
 
 const mapDispatchToProps = dispatch => ({

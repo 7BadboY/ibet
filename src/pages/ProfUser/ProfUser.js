@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import s from './ProfUser.module.css';
 import ActiveBets from '../../components/ActiveBets/ActiveBets';
 import FinishBets from '../../components/FinishBets/FinishBets';
@@ -16,12 +17,11 @@ const ProfUser = ({ session }) => {
             alt=""
           />
           <div className={s.info}>
-            <div className={s.lineSecond}>Name: {session.userName}</div>
-            <div className={s.lineSecond}>Nick: Anonymous</div>
-            <div className={s.lineSecond}>Balance: {session.points}</div>
+            <div className={s.lineSecond}>@{session.user.userName}</div>
+            <div className={s.lineSecond}>Balance: {session.user.points}</div>
             <div>
               <Button type="button" className={s.but}>
-                ADD BET
+                <Link to="/active_games">ADD BET</Link>
               </Button>
             </div>
           </div>
