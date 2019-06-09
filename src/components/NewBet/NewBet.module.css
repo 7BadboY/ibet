@@ -20,12 +20,10 @@
   background-color: #fff;
 }
 
-.closeBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
+.modalBtn {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
 }
 
 .betForm label, .betForm p {
@@ -37,9 +35,24 @@
 }
 
 .betForm input, .betForm select {
-  width: 160px;
+  width: 190px;
 }
 
+.betForm select {
+  font-size: 16px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  transition: .2s;
+}
+
+.betForm select:hover {
+  border-bottom: 2px solid black;
+}
+
+.betForm select:focus {
+  border-bottom: 2px solid #303F9F;
+}
 
 .modal input[type='number']::-webkit-inner-spin-button,
 .modal input[type='number']::-webkit-outer-spin-button {
