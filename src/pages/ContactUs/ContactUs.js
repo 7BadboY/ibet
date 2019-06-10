@@ -20,12 +20,20 @@ export default class ContactUs extends Component {
   //   const data = { name, country, mail, feedback };
   //   console.log('data:_____', data);
   // };
-  onSubmit = () => {
+  onSubmit = e => {
     const { name, country, mail, feedback } = this.state;
     const data = { name, country, mail, feedback };
-
+    e.preventDefault();
     if (data.name && data.name.length < 10 && data.mail && data.feedback) {
       console.log('data:_____', data);
+      fetch('http://localhost:8080/api/submit', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      e.target.reset();
     } else {
       alert('заполините все поля');
     }

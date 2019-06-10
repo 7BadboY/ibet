@@ -38,7 +38,11 @@ function TextFields({ onChange, onSubmit }) {
         </p>
       </div>
       <div className={styles.inputs}>
-        <form className={classes.container} noValidate autoComplete="off">
+        <form
+          onSubmit={onSubmit}
+          className={classes.container}
+          autoComplete="off"
+        >
           <TextField
             onChange={onChange}
             id="standard-name"
@@ -88,7 +92,7 @@ function TextFields({ onChange, onSubmit }) {
           />
           <div className={styles.button}>
             <Fab
-              onClick={onSubmit}
+              type="submit"
               variant="extended"
               aria-label="Delete"
               className={styles.btn}
