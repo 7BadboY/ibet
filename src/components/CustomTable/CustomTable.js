@@ -139,8 +139,12 @@ class CustomTable extends Component {
                   <TableCell align="right">{row.betValue}</TableCell>
                   <TableCell align="right">{row.exitDate}</TableCell>
                   <TableCell align="right">
-                    {session.user.id === row.partnerID && (
-                      <Button type="button" disabled={'partnerID' in row}>
+                    {session.user.id !== row.userID && (
+                      <Button
+                        onClick={() => this.onHandleActiveGame(row)}
+                        type="button"
+                        disabled={'partnerID' in row}
+                      >
                         apply
                       </Button>
                     )}
