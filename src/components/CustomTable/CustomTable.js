@@ -88,7 +88,7 @@ class CustomTable extends Component {
 
   render() {
     const { active, filter } = this.state;
-    const { session } = this.props;
+    const { session, disabledFunc } = this.props;
     let filtredActive;
     if (filter === 'closed') {
       filtredActive = active.filter(el => el.isActive);
@@ -99,10 +99,12 @@ class CustomTable extends Component {
     }
     return (
       <Paper className={classes.root}>
-        <Filter
-          filter={filter}
-          onHandleChangeFilter={this.onHandleChangeFilter}
-        />
+        {!disabledFunc && (
+          <Filter
+            filter={filter}
+            onHandleChangeFilter={this.onHandleChangeFilter}
+          />
+        )}
         <TextField
           id="outlined-name"
           label="Name"
@@ -135,10 +137,16 @@ class CustomTable extends Component {
                   <TableCell align="right">{row.points}</TableCell>
                   <TableCell align="right">{row.type}</TableCell>
                   <TableCell align="right">{row.betValue}</TableCell>
-                  <TableCell align="right">{row.exitDate}</TableCell>
                   <TableCell align="right">
-                    {session.user.id === row.partnerID && (
-                      <Button type="button" disabled={'partnerID' in row}>
+                    {new Date(row.exitDate).toLocaleString('en-GB')}
+                  </TableCell>
+                  <TableCell align="right">
+                    {session.user.id !== row.userID && (
+                      <Button
+                        onClick={() => this.onHandleActiveGame(row)}
+                        type="button"
+                        disabled={'partnerID' in row}
+                      >
                         apply
                       </Button>
                     )}
@@ -157,6 +165,11 @@ CustomTable.propTypes = {
   session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   enterGame: PropTypes.func.isRequired,
   apply: PropTypes.func.isRequired,
+  disabledFunc: PropTypes.bool,
+};
+
+CustomTable.defaultProps = {
+  disabledFunc: false,
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -6,7 +6,8 @@ import CustomTable from '../CustomTable/CustomTable';
 const ActiveBets = ({ session }) => {
   return (
     <div className={s.back}>
-      <CustomTable session={session} active={session.user.bets} />
+      <h2>Active bets</h2>
+      <CustomTable session={session} active={session.user.bets} disabledFunc />
     </div>
   );
 };

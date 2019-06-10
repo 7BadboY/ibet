@@ -12,3 +12,8 @@ export const EXAMPLE = `EXAMPLE`;
 // User
 export const AUTH_SUCCESS = `SESSION: AUTH_SUCCESS`;
 export const LOG_OUT = `SESSION: LOG_OUT`;
+
+// Bets
+export const BET_APLLY = 'BET: APLLY';
+export const BET_FETCH_SUCCESS = 'BET: FETCH_SUCCESS';
+export const BET_FETCH_FAILURE = 'BET: FETCH_FAILURE';

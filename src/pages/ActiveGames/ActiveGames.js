@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { asyncGetBets } from '../../components/CustomTable/tableAction';
 import CustomTable from '../../components/CustomTable/CustomTable';
 import NewBetModal from '../../components/NewBet/NewBetModal';
+import styles from './ActiveGames.module.css';
 
 class ActiveGames extends Component {
   state = {};
@@ -17,8 +18,10 @@ class ActiveGames extends Component {
     const { active, session } = this.props;
     return (
       <div>
-        <h2>ActiveGames</h2>
-        <NewBetModal />
+        <div className={styles.activeHeader}>
+          <h2>ActiveGames</h2>
+          <NewBetModal />
+        </div>
         <CustomTable active={active} session={session} />
       </div>
     );
