@@ -60,8 +60,8 @@ class NewBetModal extends Component {
       points: Number(this.state.pointValue),
       type: this.state.category || 'random',
       betValue: Number(this.state.rate),
-      exitDate: Date.parse(new Date(this.state.publicationBet)),
-      creatingDate: Date.parse(new Date(this.state.startBet)),
+      exitDate: Date.parse(new Date(this.state.startBet)),
+      creatingDate: Date.parse(new Date(this.state.publicationBet)),
     };
 
     createBet(betData, session.token);
