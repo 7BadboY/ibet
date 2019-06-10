@@ -137,7 +137,9 @@ class CustomTable extends Component {
                   <TableCell align="right">{row.points}</TableCell>
                   <TableCell align="right">{row.type}</TableCell>
                   <TableCell align="right">{row.betValue}</TableCell>
-                  <TableCell align="right">{row.exitDate}</TableCell>
+                  <TableCell align="right">
+                    {new Date(row.exitDate).toLocaleString('en-GB')}
+                  </TableCell>
                   <TableCell align="right">
                     {session.user.id !== row.userID && (
                       <Button
