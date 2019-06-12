@@ -20,7 +20,7 @@ import classes from './About.module.css';
 function About() {
   return (
     <div className={classes.project}>
-      <p className={classes.aboutProject}>It&apos;s our great project team!</p>
+      <p className={classes.aboutProject}>It&apos;s our great project team.</p>
       <p className={classes.aboutProject}>
         Collaboration of the best minds of 10th and 11th bootcamps.
       </p>
@@ -51,7 +51,7 @@ function About() {
               height="100"
             />
             <h2 className={classes.unitName}>Valerii Kovalenko</h2>
-            <p>text</p>
+            <p>Complete the page ContactUs</p>
           </div>
           <div className={classes.navContact}>
             <div className={classes.unitLeft}>
@@ -63,7 +63,7 @@ function About() {
                 height="100"
               />
               <h2 className={classes.unitName}>Aleksandra Butenko</h2>
-              <p>text</p>
+              <p>Contacts</p>
             </div>
             <div className={classes.unitRight}>
               <img
@@ -74,7 +74,7 @@ function About() {
                 height="100"
               />
               <h2 className={classes.unitName}>Dmitrii Nikonenko</h2>
-              <p>text</p>
+              <p>Something about</p>
             </div>
           </div>
         </div>
@@ -88,10 +88,10 @@ function About() {
               height="100"
             />
             <h2 className={classes.unitName}>Pavel Pastushenko</h2>
-            <p>text</p>
+            <p>Modal window with Registration</p>
           </div>
-          <div className={classes.login}>
-            <div className={classes.unit}>
+          <div className={classes.profile}>
+            <div className={classes.unitLeft}>
               <img
                 className={classes.avatar}
                 src={Balan}
@@ -100,21 +100,19 @@ function About() {
                 height="100"
               />
               <h2 className={classes.unitName}>Marian Balan</h2>
-              <p>text</p>
+              <p>LogIn</p>
             </div>
-          </div>
-        </div>
-        <div className={classes.profile}>
-          <div className={classes.unit}>
-            <img
-              className={classes.avatar}
-              src={Goma}
-              alt="Goma"
-              width="100"
-              height="100"
-            />
-            <h2 className={classes.unitName}>Vladislav Goma</h2>
-            <p>text</p>
+            <div className={classes.unitRight}>
+              <img
+                className={classes.avatar}
+                src={Goma}
+                alt="Goma"
+                width="100"
+                height="100"
+              />
+              <h2 className={classes.unitName}>Vladimir Goma</h2>
+              <p>Creator of profile</p>
+            </div>
           </div>
         </div>
         <div className={classes.homePage}>
@@ -129,18 +127,16 @@ function About() {
             <h2 className={classes.unitName}>Aleksandr Bakov</h2>
             <p>Mastermind of this project</p>
           </div>
-          <div className={classes.headerFooter}>
-            <div className={classes.unit}>
-              <img
-                className={classes.avatar}
-                src={Hrevtsova}
-                alt="Hrevtsova"
-                width="100"
-                height="100"
-              />
-              <h2 className={classes.unitName}>Aleksandra Hrevtsova</h2>
-              <p>did something...</p>
-            </div>
+          <div className={classes.unit}>
+            <img
+              className={classes.avatar}
+              src={Hrevtsova}
+              alt="Hrevtsova"
+              width="100"
+              height="100"
+            />
+            <h2 className={classes.unitName}>Aleksandra Hrevtsova</h2>
+            <p>did something...</p>
           </div>
         </div>
         <div className={classes.scores}>
@@ -153,7 +149,7 @@ function About() {
               height="100"
             />
             <h2 className={classes.unitName}>Rodion Romanov</h2>
-            <p>text</p>
+            <p>Complete the Scores wirh Data</p>
           </div>
           <div className={classes.scoresTeam}>
             <div className={classes.unitLeft}>
@@ -165,7 +161,7 @@ function About() {
                 height="100"
               />
               <h2 className={classes.unitName}>Vitalii Chenchovii</h2>
-              <p>text</p>
+              <p>Keys and Values</p>
             </div>
             <div className={classes.unit}>
               <img
@@ -176,7 +172,7 @@ function About() {
                 height="100"
               />
               <h2 className={classes.unitName}>Aleksei Sharkovsky</h2>
-              <p>text</p>
+              <p>Data</p>
             </div>
             <div className={classes.unitRight}>
               <img
@@ -187,7 +183,7 @@ function About() {
                 height="100"
               />
               <h2 className={classes.unitName}>Sergei Yarotskii</h2>
-              <p>text</p>
+              <p>Testing</p>
             </div>
           </div>
         </div>
