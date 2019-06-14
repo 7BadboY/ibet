@@ -1,5 +1,5 @@
 .container {
-  max-width: 960px;
+  max-width: 1200px;
   display: flex;
 }
 
@@ -21,52 +21,48 @@
   font-weight: bold;
 }
 
-.navigation__top {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-}
-
+.logoString,
+.navigation__top,
 .navigation__bottom {
-  display: flex;
-  flex-flow: column wrap;
-  margin: 0 auto;
-}
-
-.logoString {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  margin: 0 auto;
+}
+.navigation__bottom {
+  flex-flow: column wrap;
 }
 
-.navigation__logo {
+.logoString {
+  margin: 0;
+  align-items: flex-end;
+}
+
+.navigation__logo,
+.timezone {
   display: flex;
   /* justify-content: flex-start; */
   font-size: 38px;
   font-weight: 700;
 }
-
+.userPoint,
 .navigation__items {
   display: flex;
   flex-flow: row wrap;
+  align-items: baseline;
   justify-content: space-between;
 }
-.navigation__greet {
+.navigation__greet,
+.greeting,
+.headerButton {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
 }
 
-.greeting {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-}
-
+.greeting,
 .headerButton {
-  display: flex;
   flex-flow: row wrap;
-  justify-content: center;
 }
 
 .navInfo_time,
@@ -81,4 +77,16 @@
 
 .navInfo:hover {
   color: blue;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 479px) {
+  .container {
+    max-width: 479px;
+  }
+}
+
+@media only screen and (min-device-width: 480px) and (max-device-width: 767px) {
+  .container {
+    max-width: 767px;
+  }
 }

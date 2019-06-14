@@ -1,7 +1,7 @@
 .project {
   display: flex;
   flex-flow: column wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   margin: 0 auto;
   background-color: aquamarine;
 }
@@ -90,7 +90,7 @@ p {
 
 .generationZ {
   width: 100%;
-  min-width: 320px;
+  /* min-width: 320px; */
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
@@ -163,7 +163,7 @@ p {
 }
 
 /* 320 */
-@media only screen and (min-device-width: 375px) and (max-device-width: 479px) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 479px) {
   .generationZ {
     flex-flow: column wrap;
     justify-content: space-between;
@@ -175,12 +175,13 @@ p {
   .homePage {
     left: 30%;
   }
+
   .scoresTeam {
-    flex-flow: column wrap;
+    justify-content: space-evenly;
   }
   .scoresTeam::before {
-    width: 162px;
-    left: 22.35%;
+    width: 50%;
+    left: 24.35%;
   }
   .scoresTeam :nth-child(1) {
     order: 1;
@@ -197,7 +198,7 @@ p {
 @media only screen and (min-device-width: 480px) and (max-device-width: 767px) {
   .generationZ {
     flex-flow: column wrap;
-    justify-content: center;
+    justify-content: space-between;
   }
   .generationZ::before {
     width: 2px;
@@ -214,8 +215,8 @@ p {
 
 /* 768 */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  .generationZ {
-  }
+  /* .generationZ {
+  } */
   .generationZ::before {
     width: 550px;
     left: 18.75%;
