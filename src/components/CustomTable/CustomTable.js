@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classes from './CustomTable.module.css';
 import Filter from '../Filter/Filter';
-import { enterGame, handleOnApply } from './tableAction';
+import { enterGame, handleOnApply, handleDelete } from './tableAction';
 
 // const useStyles = makeStyles(theme => ({
 //   root: {
@@ -71,7 +71,7 @@ class CustomTable extends Component {
   };
 
   onHandleActiveGame = row => {
-    const { session, apply } = this.props;
+    const { session, apply, Delete } = this.props;
     if (row.points <= +session.user.points) {
       console.log('click');
       this.props.enterGame(row.id);
@@ -79,6 +79,7 @@ class CustomTable extends Component {
       betData.partnerID = session.user.id;
       betData.partnerName = session.user.userName;
       apply(row._id, betData, session.token);
+      Delete(row._id, betData, session.token);
     }
   };
 
@@ -150,6 +151,17 @@ class CustomTable extends Component {
                         apply
                       </Button>
                     )}
+                    <TableCell>
+                      {session.user.id === row.userID && (
+                        <Button
+                          onClick={() => this.onHandleActiveGame(row)}
+                          type="button"
+                          disabled={'partnerID' in row}
+                        >
+                          delete
+                        </Button>
+                      )}
+                    </TableCell>
                   </TableCell>
                 </TableRow>
               ))}
@@ -165,6 +177,7 @@ CustomTable.propTypes = {
   session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   enterGame: PropTypes.func.isRequired,
   apply: PropTypes.func.isRequired,
+  Delete: PropTypes.func.isRequired,
   disabledFunc: PropTypes.bool,
 };
 
@@ -175,6 +188,7 @@ CustomTable.defaultProps = {
 const mapDispatchToProps = dispatch => ({
   enterGame: id => dispatch(enterGame(id)),
   apply: (id, data, token) => dispatch(handleOnApply(id, data, token)),
+  Delete: (id, data, token) => dispatch(handleDelete(id, data, token)),
 });
 
 export default connect(

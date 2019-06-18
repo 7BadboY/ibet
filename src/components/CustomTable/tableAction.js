@@ -49,6 +49,25 @@ export const handleOnApply = (beatId, beatData, token) => dispatch => {
     });
 };
 
+export const handleDelete = (beatId, token) => dispatch => {
+  fetch(`http://localhost:8080/api/bets/delete/${beatId}`, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+      Authorization: token,
+    },
+  })
+    .then(response => {
+      response.json().then(data => {
+        console.log(data);
+        dispatch(fetchSuccess(data.bets));
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 export const asyncCreateBet = (beatData, token) => dispatch => {
   console.log('beatData', beatData);
   console.log('token', token);
@@ -70,3 +89,7 @@ export const asyncCreateBet = (beatData, token) => dispatch => {
       console.log(err);
     });
 };
+
+// http://localhost:8080/api/bets/${beatId}
+// method DELETE
+// Authorization: token
