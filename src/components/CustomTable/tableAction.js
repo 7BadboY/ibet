@@ -50,7 +50,7 @@ export const handleOnApply = (beatId, beatData, token) => dispatch => {
 };
 
 export const handleDelete = (beatId, token) => dispatch => {
-  fetch(`http://localhost:8080/api/bets/delete/${beatId}`, {
+  fetch(`http://localhost:8080/api/bets/${beatId}`, {
     method: 'DELETE',
     headers: {
       'content-type': 'application/json',

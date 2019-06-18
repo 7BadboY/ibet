@@ -70,8 +70,13 @@ class CustomTable extends Component {
     });
   };
 
+  onHandleDelete = row => {
+    const { onDelete, session } = this.props;
+    onDelete(row._id, session.token);
+  };
+
   onHandleActiveGame = row => {
-    const { session, apply, Delete } = this.props;
+    const { session, apply } = this.props;
     if (row.points <= +session.user.points) {
       console.log('click');
       this.props.enterGame(row.id);
@@ -79,7 +84,6 @@ class CustomTable extends Component {
       betData.partnerID = session.user.id;
       betData.partnerName = session.user.userName;
       apply(row._id, betData, session.token);
-      Delete(row._id, betData, session.token);
     }
   };
 
@@ -154,7 +158,7 @@ class CustomTable extends Component {
                     <TableCell>
                       {session.user.id === row.userID && (
                         <Button
-                          onClick={() => this.onHandleActiveGame(row)}
+                          onClick={() => this.onHandleDelete(row)}
                           type="button"
                           disabled={'partnerID' in row}
                         >
@@ -177,7 +181,7 @@ CustomTable.propTypes = {
   session: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   enterGame: PropTypes.func.isRequired,
   apply: PropTypes.func.isRequired,
-  Delete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   disabledFunc: PropTypes.bool,
 };
 
@@ -188,7 +192,7 @@ CustomTable.defaultProps = {
 const mapDispatchToProps = dispatch => ({
   enterGame: id => dispatch(enterGame(id)),
   apply: (id, data, token) => dispatch(handleOnApply(id, data, token)),
-  Delete: (id, data, token) => dispatch(handleDelete(id, data, token)),
+  onDelete: (id, data, token) => dispatch(handleDelete(id, data, token)),
 });
 
 export default connect(

@@ -23,6 +23,10 @@ const Filter = ({ onHandleChangeFilter, filter }) => {
       >
         In the game
       </Button>
+      <Button
+        onClick={() => onHandleChangeFilter('creatingDate')}
+        disabled={filter === 'creatingDate'}
+      />
     </div>
   );
 };
