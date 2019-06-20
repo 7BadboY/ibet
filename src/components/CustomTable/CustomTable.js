@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -31,6 +34,7 @@ class CustomTable extends Component {
     active: this.props.active,
     currentEnter: '',
     filter: 'all',
+    creatingDate: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -92,15 +96,21 @@ class CustomTable extends Component {
   };
 
   render() {
-    const { active, filter } = this.state;
+    const { active, filter, creatingDate } = this.state;
     const { session, disabledFunc } = this.props;
     let filtredActive;
     if (filter === 'closed') {
-      filtredActive = active.filter(el => el.isActive);
+      filtredActive = active.filter(
+        el => el.isActive && el.creatingDate <= new Date().getTime(),
+      );
     } else if (filter === 'isActive') {
-      filtredActive = active.filter(el => !el.isActive);
+      filtredActive = active.filter(
+        el => !el.isActive && el.creatingDate <= new Date().getTime(),
+      );
     } else {
-      filtredActive = active;
+      filtredActive = active.filter(
+        el => el.creatingDate <= new Date().getTime(),
+      );
     }
     return (
       <Paper className={classes.root}>
@@ -152,20 +162,20 @@ class CustomTable extends Component {
                         type="button"
                         disabled={'partnerID' in row}
                       >
-                        apply
+                        {session.user.id !== row.partnerID
+                          ? 'apply'
+                          : 'in game'}
                       </Button>
                     )}
-                    <TableCell>
-                      {session.user.id === row.userID && (
-                        <Button
-                          onClick={() => this.onHandleDelete(row)}
-                          type="button"
-                          disabled={'partnerID' in row}
-                        >
-                          delete
-                        </Button>
-                      )}
-                    </TableCell>
+                    {session.user.id === row.userID && (
+                      <Button
+                        onClick={() => this.onHandleDelete(row)}
+                        type="button"
+                        disabled={'partnerID' in row}
+                      >
+                        delete
+                      </Button>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

@@ -10,8 +10,10 @@ import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import { toogleModalLogin } from '../ModalLogin/ModalLoginActions';
 import classes from './Header.module.css';
+import LoginModal from '../ModalLogin/ModalLogin';
+import { logOut } from '../ModalLogin/sessionActions';
 
-function Header({ toogleModal, isAuthenticated }) {
+function Header({ toogleModal, isAuthenticated, onLogOut }) {
   return (
     <header className={classes.header}>
       <nav className={classes.navigation__top}>
@@ -29,13 +31,18 @@ function Header({ toogleModal, isAuthenticated }) {
           </IconButton>
         </div>
         <div className={classes.userPoint}>
+          <Button className={classes.navInfo} onClick={onLogOut} to="/homePage">
+            log out
+          </Button>
           {!isAuthenticated && (
             <>
               <IconButton onClick={toogleModal}>
                 <SvgIcon>
                   <path d="M19,21V19H15V17H19V15L22,18L19,21M10,4A4,4 0 0,1 14,8A4,4 0 0,1 10,12A4,4 0 0,1 6,8A4,4 0 0,1 10,4M10,14C11.15,14 12.25,14.12 13.24,14.34C12.46,15.35 12,16.62 12,18C12,18.7 12.12,19.37 12.34,20H2V18C2,15.79 5.58,14 10,14Z" />
                 </SvgIcon>
-                <Typography className={classes.navInfo}>Login</Typography>
+                <Typography className={classes.navInfo}>
+                  {LoginModal}
+                </Typography>
               </IconButton>
             </>
           )}
@@ -97,6 +104,9 @@ const dispatchToProp = dispatch => ({
   toogleModal() {
     dispatch(toogleModalLogin());
   },
+  onLogOut() {
+    dispatch(logOut());
+  },
 });
 
 Header.propTypes = {};
@@ -109,4 +119,5 @@ export default connect(
 Header.propTypes = {
   toogleModal: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  onLogOut: PropTypes.func.isRequired,
 };

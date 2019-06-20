@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
+import { stat } from 'fs';
 import {
   TOOGLE,
   TOOGLE_LOGIN,
@@ -5,6 +8,7 @@ import {
   CLEAR_NOTIFICATION,
   SIGNIN_RESPONSE,
   SIGNUP_RESPONSE,
+  LOG_OUT,
 } from '../../utils/constants';
 
 const INITIALSTATE = {
@@ -83,6 +87,11 @@ const ModalLoginReducer = (state = INITIALSTATE, action) => {
       return {
         ...state,
         serverResponse: {},
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        serverResponse: { type: `success`, message: `logout` },
       };
     default:
       return state;

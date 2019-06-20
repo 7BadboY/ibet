@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   BET_APLLY,
   BET_FETCH_SUCCESS,
@@ -89,7 +90,3 @@ export const asyncCreateBet = (beatData, token) => dispatch => {
       console.log(err);
     });
 };
-
-// http://localhost:8080/api/bets/${beatId}
-// method DELETE
-// Authorization: token
