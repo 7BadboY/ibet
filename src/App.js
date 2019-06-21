@@ -12,17 +12,25 @@ import { refreshCurrentUser } from './components/ModalLogin/sessionActions';
 import ContactUs from './pages/ContactUs/ContactUs';
 import ProtectedRoute from './hoc/ProtectedRoute';
 import Profile from './pages/ProfUser/ProfUser';
+import Preloader from './components/Preloader/Preloader';
 
 class App extends Component {
+  state = {
+    loading: true,
+  };
+
   componentDidMount() {
     const { getCurrentUser } = this.props;
     // console.log('App');
     getCurrentUser();
+    setTimeout(() => this.setState({ loading: false }), 4500);
   }
 
   render() {
+    const { loading } = this.state;
     return (
       <div>
+        {loading && <Preloader />}
         <Route path="/" component={LoginModal} />
         <Route path="/" component={Header} />
         <Route exact path="/" component={Home} />
