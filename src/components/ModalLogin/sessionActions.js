@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { AUTH_SUCCESS, LOG_OUT } from '../../utils/constants';
 
 export const authSucces = data => {
