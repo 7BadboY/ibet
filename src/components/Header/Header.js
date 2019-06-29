@@ -31,9 +31,15 @@ function Header({ toogleModal, isAuthenticated, onLogOut }) {
           </IconButton>
         </div>
         <div className={classes.userPoint}>
-          <Button className={classes.navInfo} onClick={onLogOut} to="/homePage">
-            log out
-          </Button>
+          {isAuthenticated && (
+            <Button
+              className={classes.navInfo}
+              onClick={onLogOut}
+              to="/homePage"
+            >
+              log out
+            </Button>
+          )}
           {!isAuthenticated && (
             <>
               <IconButton onClick={toogleModal}>

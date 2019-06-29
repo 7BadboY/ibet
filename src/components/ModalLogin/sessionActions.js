@@ -28,7 +28,9 @@ export const refreshCurrentUser = () => (dispatch, getState) => {
     .then(response => {
       response.json().then(data => {
         // console.log(`Response from token`, data);
-        dispatch(authSucces({ user: data.user }));
+        if (data.user) {
+          dispatch(authSucces({ user: data.user }));
+        }
       });
     })
     .catch(err => {
