@@ -7,6 +7,8 @@ import ActiveBets from '../../components/ActiveBets/ActiveBets';
 import FinishBets from '../../components/FinishBets/FinishBets';
 
 const ProfUser = ({ session }) => {
+  console.log('ProfUser-session', session);
+
   return (
     <div className={s.header}>
       <div className={s.main}>
@@ -28,7 +30,7 @@ const ProfUser = ({ session }) => {
         </div>
         <div className={s.bet}>
           <ActiveBets session={session} />
-          <FinishBets />
+          <FinishBets session={session} />
         </div>
       </div>
     </div>
